@@ -1,1176 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>WILLTECH Code Academy — Experience the Future</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080d1b">
+<title>WILLTECH Code Academy | Learn Beyond Limits</title>
 <style>
-  :root{
-    --navy:#050b24;--electric:#2f7bff;--cyan:#22d3ee;--purple:#8b5cf6;
-    --ink:#e8eefc;--muted:#94a3b8;--glass:rgba(255,255,255,0.045);
-    --border:rgba(255,255,255,0.09);
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%}
-  body{
-    font-family:system-ui,-apple-system,'Segoe UI',sans-serif;
-    background:var(--navy);color:var(--ink);
-    background-image:
-      radial-gradient(circle at 15% 10%,rgba(47,123,255,.18),transparent 45%),
-      radial-gradient(circle at 85% 20%,rgba(139,92,246,.15),transparent 45%),
-      radial-gradient(circle at 50% 90%,rgba(34,211,238,.10),transparent 45%);
-    background-attachment:fixed;min-height:100vh;
-    -webkit-tap-highlight-color:transparent;
-  }
-  a{color:inherit;text-decoration:none}
-  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
-  input,textarea,select{font-family:inherit}
-  .container{max-width:1200px;margin:0 auto;padding:0 20px}
-  .glass{background:var(--glass);backdrop-filter:blur(14px);border:1px solid var(--border);border-radius:16px}
-  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-  .grid{display:grid;gap:16px}
-  header{position:sticky;top:0;z-index:50;background:rgba(5,11,36,.85);
-    backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
-  .nav{display:flex;align-items:center;justify-content:space-between;height:64px}
-  .brand{display:flex;align-items:center;gap:8px;font-weight:700;cursor:pointer}
-  .brand .bolt{font-size:22px}
-  .brand .cy{color:var(--cyan)}
-  .nav-links{display:flex;gap:22px;font-size:14px;align-items:center}
-  .nav-links a{cursor:pointer}
-  .nav-links a:hover{color:var(--cyan)}
-  .nav-mobile-btn{display:none;font-size:24px}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
-    padding:12px 22px;border-radius:12px;font-weight:600;font-size:14px;
-    transition:transform .15s,box-shadow .2s;white-space:nowrap}
-  .btn:active{transform:scale(.97)}
-  .btn-primary{background:linear-gradient(90deg,var(--electric),var(--purple));
-    color:#fff;box-shadow:0 0 30px rgba(47,123,255,.35)}
-  .btn-primary:hover{box-shadow:0 0 45px rgba(47,123,255,.55);transform:translateY(-1px)}
-  .btn-ghost{border:1px solid rgba(34,211,238,.4);color:var(--cyan)}
-  .btn-ghost:hover{background:rgba(34,211,238,.1)}
-  .btn-sm{padding:8px 14px;font-size:13px;border-radius:10px}
-  .btn-block{width:100%}
-  .card{padding:24px;transition:transform .2s,box-shadow .2s}
-  .card:hover{transform:translateY(-2px)}
-  .card-glow:hover{box-shadow:0 0 40px rgba(34,211,238,.25)}
-  .pill{display:inline-block;padding:4px 10px;border-radius:999px;font-size:11px;
-    background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--muted)}
-  .pill.premium{background:rgba(139,92,246,.2);color:#d8b4fe;border-color:rgba(139,92,246,.4)}
-  .pill.free{background:rgba(34,211,238,.15);color:#a5f3fc;border-color:rgba(34,211,238,.35)}
-  .hero{padding:80px 0 60px;text-align:center}
-  .hero h1{font-size:clamp(34px,6vw,64px);font-weight:700;line-height:1.1;margin-bottom:18px}
-  .grad{background:linear-gradient(90deg,var(--cyan),var(--electric),var(--purple));
-    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-  .hero p{color:var(--muted);max-width:620px;margin:0 auto 32px;font-size:17px;line-height:1.6}
-  .badge{margin-bottom:24px}
-  section{padding:60px 0}
-  h2{font-size:clamp(24px,4vw,36px);font-weight:700;margin-bottom:24px}
-  .input{width:100%;padding:12px 14px;border-radius:10px;background:rgba(255,255,255,.04);
-    border:1px solid var(--border);color:var(--ink);font-size:14px;outline:none;transition:border .2s}
-  .input:focus{border-color:var(--cyan)}
-  .input::placeholder{color:#64748b}
-  .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);
-    z-index:100;display:none;align-items:center;justify-content:center;padding:16px}
-  .modal-bg.open{display:flex}
-  .modal{width:100%;max-width:420px;padding:28px;background:#0a1330;
-    border:1px solid var(--border);border-radius:18px}
-  .code-editor{width:100%;height:280px;padding:14px;border-radius:12px;
-    background:#020617;border:1px solid var(--border);color:#a5f3fc;
-    font-family:'Courier New',monospace;font-size:13px;line-height:1.5;
-    resize:vertical;outline:none}
-  .code-editor:focus{border-color:var(--cyan)}
-  .output{background:#020617;border:1px solid var(--border);border-radius:12px;
-    padding:14px;color:#4ade80;font-family:'Courier New',monospace;font-size:13px;
-    height:280px;overflow:auto;white-space:pre-wrap;word-wrap:break-word}
-  .output .err{color:#f87171}.output .muted{color:#475569}
-  .chat-window{background:rgba(255,255,255,.03);border:1px solid var(--border);
-    border-radius:14px;padding:16px;height:420px;overflow-y:auto;display:flex;flex-direction:column;gap:10px}
-  .msg{max-width:85%;padding:12px 14px;border-radius:14px;font-size:14px;
-    line-height:1.5;white-space:pre-wrap;word-wrap:break-word}
-  .msg.user{align-self:flex-end;background:rgba(47,123,255,.3)}
-  .msg.assistant{align-self:flex-start;background:rgba(255,255,255,.05);border:1px solid var(--border)}
-  .progress{height:8px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden}
-  .progress > div{height:100%;background:linear-gradient(90deg,var(--cyan),var(--purple));
-    transition:width .4s}
-  .lesson-layout{display:grid;grid-template-columns:260px 1fr;gap:20px}
-  @media(max-width:768px){.lesson-layout{grid-template-columns:1fr}}
-  .lesson-list button{width:100%;text-align:left;padding:10px 12px;border-radius:8px;
-    font-size:13px;margin-bottom:4px;transition:background .15s}
-  .lesson-list button:hover{background:rgba(255,255,255,.05)}
-  .lesson-list button.active{background:rgba(34,211,238,.18);color:var(--cyan);font-weight:600}
-  .toast{position:fixed;bottom:24px;right:24px;padding:14px 20px;border-radius:12px;
-    background:#0a1330;border:1px solid var(--border);box-shadow:0 10px 40px rgba(0,0,0,.5);
-    z-index:200;transform:translateY(200%);transition:transform .3s;font-size:14px;max-width:340px}
-  .toast.show{transform:translateY(0)}
-  .toast.success{border-color:rgba(74,222,128,.4);color:#86efac}
-  .toast.error{border-color:rgba(248,113,113,.4);color:#fca5a5}
-  .muted{color:var(--muted);font-size:14px;line-height:1.6}
-  .text-center{text-align:center}
-  .mt-2{margin-top:8px}.mt-4{margin-top:16px}.mt-6{margin-top:24px}
-  .mb-4{margin-bottom:16px}.mb-6{margin-bottom:24px}
-  .flex-between{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
-  footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;margin-top:40px;
-    color:var(--muted);font-size:14px}
-  @media(max-width:768px){
-    .nav-links{display:none}
-    .nav-mobile-btn{display:block}
-    .nav-links.open{display:flex;position:absolute;top:64px;left:0;right:0;
-      flex-direction:column;background:#0a1330;padding:16px 20px;gap:16px;
-      border-bottom:1px solid var(--border);align-items:flex-start}
-    .hero{padding:50px 0 40px}
-    section{padding:40px 0}
-  }
+:root{--bg:#080d1b;--panel:#101a30;--panel2:#14213b;--line:rgba(164,190,255,.13);--text:#f4f7ff;--muted:#9eacc8;--blue:#5b8cff;--cyan:#42d9ee;--purple:#a879ff;--green:#4ee0ae;--radius:22px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 75% -10%,rgba(76,105,255,.2),transparent 35%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55}button,a{font:inherit}a{color:inherit;text-decoration:none}button{cursor:pointer}.wrap{width:min(1160px,92%);margin:auto}
+header{position:sticky;top:0;z-index:20;background:rgba(8,13,27,.82);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}.nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:11px;font-weight:850;letter-spacing:.2px}.logo{width:39px;height:39px;border-radius:13px;background:linear-gradient(135deg,var(--blue),var(--purple));display:grid;place-items:center;box-shadow:0 8px 25px #5b8cff55;font-size:19px}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:2px;font-weight:700}.links{display:flex;gap:25px;color:#c3cde2;font-size:14px}.links a:hover{color:var(--cyan)}.nav-actions{display:flex;gap:10px;align-items:center}.btn{border:0;border-radius:13px;padding:11px 17px;font-weight:750;transition:.2s}.btn:hover{transform:translateY(-2px);filter:brightness(1.1)}.primary{background:linear-gradient(100deg,var(--blue),var(--purple));color:white;box-shadow:0 9px 26px #5b8cff35}.ghost{background:#ffffff0a;border:1px solid var(--line);color:var(--text)}.menu{display:none;background:none;border:0;color:white;font-size:25px}
+.hero{padding:82px 0 62px;display:grid;grid-template-columns:1.12fr .88fr;align-items:center;gap:55px}.eyebrow{display:inline-flex;gap:9px;align-items:center;border:1px solid #5b8cff55;background:#5b8cff12;color:#a9c2ff;padding:7px 12px;border-radius:99px;font-size:12px;font-weight:800;letter-spacing:.6px}.pulse{width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:0 0 12px var(--green)}h1{font-size:clamp(42px,6vw,70px);line-height:1.04;letter-spacing:-2.5px;margin:22px 0 18px}.gradient{background:linear-gradient(95deg,#70a2ff,#b58cff 55%,#51dff0);color:transparent;background-clip:text}.hero p{max-width:590px;color:var(--muted);font-size:17px}.hero-buttons{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.trust{display:flex;gap:18px;flex-wrap:wrap;color:#b7c4dd;font-size:12px;margin-top:26px}.trust span:before{content:"✓";color:var(--green);margin-right:7px;font-weight:900}
+.visual{min-height:380px;position:relative;display:grid;place-items:center}.orb{position:absolute;width:290px;height:290px;border-radius:50%;background:linear-gradient(135deg,#397cff66,#9b5cff44);filter:blur(2px);box-shadow:0 0 100px #557dff44}.ai-card{position:relative;width:min(100%,420px);background:linear-gradient(145deg,#172440ed,#0d1529f2);border:1px solid #8aaeff35;border-radius:25px;padding:22px;box-shadow:0 30px 80px #0008;transform:rotate(2deg)}.ai-top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:15px}.ai-label{font-size:12px;color:#aebde0}.ai-title{font-weight:850}.online{color:var(--green);font-size:11px}.bubble{padding:13px 15px;border-radius:15px;margin-top:15px;font-size:13px;max-width:92%}.bot{background:#253455;color:#e6edff}.user{margin-left:auto;background:linear-gradient(100deg,#4c7df2,#835de5);color:white}.code-mini{margin-top:16px;background:#080f20;border:1px solid var(--line);border-radius:13px;padding:14px;font:12px/1.8 ui-monospace,monospace;color:#b9d2ff}.code-mini em{color:#56e2bd;font-style:normal}.float-tag{position:absolute;padding:10px 14px;background:#182644;border:1px solid var(--line);border-radius:13px;font-size:12px;box-shadow:0 12px 30px #0005}.tag1{top:30px;right:-8px}.tag2{bottom:35px;left:-8px}
+.section{padding:65px 0}.section-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:25px}.kicker{color:var(--cyan);font-size:11px;font-weight:850;letter-spacing:2px;text-transform:uppercase}.section h2{font-size:clamp(27px,4vw,39px);letter-spacing:-1px;margin:7px 0}.sub{color:var(--muted);margin:0}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.card{background:linear-gradient(145deg,#121e35,#0e172b);border:1px solid var(--line);border-radius:19px;padding:19px;transition:.22s}.card:hover{transform:translateY(-5px);border-color:#7199ff66;box-shadow:0 15px 35px #0004}.lang-icon{width:43px;height:43px;border-radius:13px;display:grid;place-items:center;background:#5b8cff20;color:#9bb9ff;font-weight:900;font-size:16px}.card h3{margin:14px 0 5px;font-size:16px}.card p{margin:0;color:var(--muted);font-size:12px}.card-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:17px;color:#aebde0;font-size:11px}.pill{border:1px solid #4ee0ae55;color:#75e9c3;border-radius:99px;padding:4px 8px;font-size:10px}
+.feature-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}.feature{padding:26px;border-radius:var(--radius);background:linear-gradient(135deg,#15284a,#11182c);border:1px solid var(--line)}.feature-icon{font-size:25px}.feature h3{margin:12px 0 5px}.feature p{color:var(--muted);font-size:14px;margin:0 0 18px}
+.tutor{display:grid;grid-template-columns:.8fr 1.2fr;gap:24px;align-items:stretch}.tutor-info{padding:26px}.chatbox{background:#0c1427;border:1px solid var(--line);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;min-height:360px}.chat-head{padding:15px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between}.chat-messages{padding:18px;flex:1;overflow:auto;max-height:300px}.msg{font-size:13px;padding:12px 14px;border-radius:14px;background:#1a2947;margin-bottom:10px;max-width:90%}.msg.me{margin-left:auto;background:#365ec1}.chat-input{display:flex;gap:8px;padding:13px;border-top:1px solid var(--line)}.chat-input input{flex:1;min-width:0;background:#111d34;border:1px solid var(--line);border-radius:12px;padding:12px;color:white;outline:none}.chat-input input:focus{border-color:var(--blue)}
+.challenge{display:grid;grid-template-columns:1fr 1fr;gap:18px}.question{font-size:19px;font-weight:750;margin:12px 0 20px}.answers{display:grid;gap:10px}.answer{padding:12px 14px;text-align:left;border-radius:12px;background:#ffffff08;border:1px solid var(--line);color:var(--text)}.answer:hover{border-color:var(--blue)}.answer.correct{border-color:var(--green);background:#4ee0ae16}.answer.wrong{border-color:#ff7777;background:#ff777714}.qa{padding:11px 13px;text-align:left;border-radius:12px;background:#ffffff08;border:1px solid var(--line);color:var(--text)}.qa:hover{border-color:var(--blue)}.qa.correct{border-color:var(--green);background:#4ee0ae16}.qa.wrong{border-color:#ff7777;background:#ff777714}.feedback{min-height:25px;color:var(--green);font-size:13px;margin-top:12px}.editor{background:#080f20;border:1px solid var(--line);border-radius:17px;overflow:hidden}.editor-head{padding:11px 14px;background:#14213a;color:#b9c8e6;font-size:12px;display:flex;justify-content:space-between}.editor textarea{width:100%;height:175px;resize:vertical;background:transparent;border:0;outline:0;color:#b9e2ff;padding:15px;font:13px/1.6 ui-monospace,monospace}.output{padding:12px 15px;border-top:1px solid var(--line);min-height:48px;color:#a8edce;font:12px ui-monospace,monospace;white-space:pre-wrap}
+.cta{padding:35px;border-radius:25px;background:linear-gradient(110deg,#2456b8,#754bd0);display:flex;justify-content:space-between;align-items:center;gap:20px}.cta h2{margin:0 0 5px}.cta p{margin:0;color:#e0e7ff;font-size:14px}
+footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-size:12px}.foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.modal{position:fixed;inset:0;background:#030713c9;backdrop-filter:blur(8px);display:none;place-items:center;padding:18px;z-index:50}.modal.show{display:grid}.modal-box{width:min(430px,100%);background:#121e35;border:1px solid #829fff45;border-radius:22px;padding:25px;box-shadow:0 30px 90px #0009;position:relative}.close{position:absolute;right:16px;top:13px;background:none;border:0;color:#b9c7e4;font-size:24px}.modal-box h2{margin:0 0 6px}.modal-box p{color:var(--muted);font-size:13px}.field{width:100%;margin:8px 0;padding:13px;border:1px solid var(--line);border-radius:12px;background:#0b1428;color:white;outline:none}.field:focus{border-color:var(--blue)}.modal-box .btn{width:100%;margin-top:10px}.hint{font-size:11px;color:var(--muted);text-align:center;margin-top:13px}
+@media(max-width:850px){.links{display:none;position:absolute;top:76px;left:0;right:0;padding:20px 5%;background:#0c1427;border-bottom:1px solid var(--line);flex-direction:column}.links.open{display:flex}.menu{display:block}.nav-actions .ghost{display:none}.hero{grid-template-columns:1fr;padding-top:55px;gap:20px}.visual{min-height:330px}.grid{grid-template-columns:repeat(2,1fr)}.tutor{grid-template-columns:1fr}.feature-row,.challenge{grid-template-columns:1fr}}
+@media(max-width:480px){.brand{font-size:14px}.nav{height:66px}.links{top:66px}.hero{padding-top:42px}h1{letter-spacing:-1.6px}.grid{gap:10px}.card{padding:14px}.section{padding:48px 0}.section-head{display:block}.cta{display:block;padding:25px}.cta .btn{margin-top:17px}.float-tag{font-size:10px}.ai-card{padding:16px}}
 </style>
 </head>
 <body>
+<header><div class="wrap nav">
+<a class="brand" href="#"><span class="logo">W</span><span>WILLTECH <small>CODE ACADEMY</small></span></a>
+<nav class="links" id="links"><a href="#languages">Explore courses</a><a href="#tutor">AI tutor</a><a href="#practice">Practice</a><a href="#dashboard">My dashboard</a><a href="#about">About</a></nav>
+<div class="nav-actions"><button class="btn ghost" onclick="openModal('login')">Log in</button><button class="btn primary" onclick="openModal('signup')">Get started</button><button class="menu" onclick="document.getElementById('links').classList.toggle('open')" aria-label="Open menu">☰</button></div>
+</div></header>
+<main>
+<section class="wrap hero">
+<div><div class="eyebrow"><span class="pulse"></span> YOUR FUTURE STARTS WITH CODE</div>
+<h1>Learn to code.<br><span class="gradient">Think beyond.</span></h1>
+<p>Build real-world skills with practical lessons, hands-on challenges and an AI learning companion that helps you understand every step.</p>
+<div class="hero-buttons"><a class="btn primary" href="#languages">Explore courses&nbsp; →</a><button class="btn ghost" onclick="openModal('signup')">Create free account</button></div>
+<div class="trust"><span>Beginner friendly</span><span>Learn at your pace</span><span>Free to start</span></div></div>
+<div class="visual"><div class="orb"></div><div class="ai-card"><div class="ai-top"><div><div class="ai-title">WILLTECH AI</div><div class="ai-label">Your personal coding companion</div></div><span class="online">● ONLINE</span></div><div class="bubble bot">Hey! 👋 What are we building today?</div><div class="bubble user">Can you explain Python variables?</div><div class="bubble bot">Absolutely! Think of a variable as a labelled box where you store information.</div><div class="code-mini"><span>name</span> = <em>"Williams"</em><br><span>print</span>(name)<br><em># Output: Williams</em></div></div><div class="float-tag tag1">✦ AI-powered learning</div><div class="float-tag tag2">⌘ Learn by doing</div></div>
+</section>
+<section class="section wrap" id="languages"><div class="section-head"><div><div class="kicker">Choose your path</div><h2>Explore the coding universe</h2><p class="sub">Start with one language. Grow into a creator.</p></div><span class="pill">13 learning paths</span></div><div class="grid" id="courseGrid"></div></section>
+<section class="section wrap" id="tutor"><div class="section-head"><div><div class="kicker">Meet your learning companion</div><h2>You're never stuck alone.</h2><p class="sub">Ask questions, get explanations and keep moving forward.</p></div></div><div class="tutor"><div class="card tutor-info"><div class="feature-icon">✦</div><h3>WILLTECH AI Tutor</h3><p>Get beginner-friendly explanations, hints for coding problems and ideas for what to practise next.</p><p><span class="pill">Interactive demo</span></p><small style="color:var(--muted)">This preview uses sample responses. A live AI tutor can be connected securely through an AI service later.</small></div><div class="chatbox"><div class="chat-head"><strong>✦ AI Learning Assistant</strong><span class="online">● Ready</span></div><div class="chat-messages" id="messages"><div class="msg">Hello! I'm your WILLTECH learning assistant. Ask me a coding question to try the demo.</div></div><form class="chat-input" onsubmit="askTutor(event)"><input id="questionInput" placeholder="Ask a coding question..." autocomplete="off"><button class="btn primary">Send</button></form></div></div></section>
+<section class="section wrap" id="practice"><div class="section-head"><div><div class="kicker">Build your confidence</div><h2>Learn. Practise. Level up.</h2><p class="sub">Test your knowledge and experiment with code.</p></div></div><div class="challenge"><div class="card"><span class="pill">Quick challenge</span><div class="question">In Python, which symbol is used to assign a value to a variable?</div><div class="answers"><button class="answer" onclick="checkAnswer(this,false)">A. ==</button><button class="answer" onclick="checkAnswer(this,true)">B. =</button><button class="answer" onclick="checkAnswer(this,false)">C. !=</button><button class="answer" onclick="checkAnswer(this,false)">D. =&gt;</button></div><div class="feedback" id="feedback"></div></div><div class="card"><span class="pill">Code playground · JavaScript</span><h3 style="margin:12px 0">Try a little code</h3><div class="editor"><div class="editor-head"><span>script.js</span><span>● Ready</span></div><textarea id="code">const name = "Future Developer";
+console.log("Hello, " + name + "!");</textarea><div class="output" id="output">Your output will appear here.</div></div><button class="btn primary" style="margin-top:12px" onclick="runCode()">▶ Run code</button></div></div></section>
 
-<header>
-  <div class="container nav">
-    <a class="brand" data-nav="home">
-      <span class="bolt">⚡</span>
-      <span>WILLTECH <span class="cy">Code Academy</span></span>
-    </a>
-    <nav class="nav-links" id="navLinks">
-      <a data-nav="courses">Courses</a>
-      <a data-nav="playground">Playground</a>
-      <a data-nav="ai">AI Tutor</a>
-      <a data-nav="dashboard">Dashboard</a>
-      <span id="navAuth"></span>
-    </nav>
-    <button class="nav-mobile-btn" id="mobileBtn">☰</button>
-  </div>
-</header>
+<section class="section wrap" id="dashboard">
+ <div class="section-head"><div><div class="kicker">Your learning space</div><h2>My learning dashboard</h2><p class="sub">Your progress is saved in this browser on this device.</p></div><span class="pill" id="progressBadge">0 lessons completed</span></div>
+ <div class="feature-row">
+  <div class="card"><div class="kicker">Learning progress</div><h2 id="progressCount" style="font-size:38px;margin:8px 0">0</h2><p class="sub">Lessons completed</p><div style="height:9px;background:#ffffff12;border-radius:20px;margin-top:18px;overflow:hidden"><div id="progressBar" style="height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--cyan));border-radius:20px"></div></div></div>
+  <div class="card"><div class="kicker">Your next step</div><h3 style="margin:10px 0">Keep your momentum going</h3><p class="sub">Choose a course, complete a lesson, then return here to see your progress update.</p><a class="btn primary" href="#languages" style="display:inline-block;margin-top:15px">Find a lesson →</a></div>
+ </div>
+ <div class="card" style="margin-top:16px"><h3>Recently completed</h3><div id="completedList" class="sub">No lessons completed yet. Your first lesson is waiting!</div></div>
+</section>
 
-<main id="app"></main>
+<section class="section wrap" id="about"><div class="feature-row"><div class="feature"><div class="feature-icon">🎯</div><h3>Practical from day one</h3><p>Move beyond memorising syntax. Work through examples, exercises and projects that help you build real skills.</p></div><div class="feature"><div class="feature-icon">🚀</div><h3>Your pace. Your progress.</h3><p>Create an account on this device to keep track of your learning journey as the academy grows.</p></div></div></section>
+<section class="wrap section"><div class="cta"><div><h2>Ready to build your future?</h2><p>Your first line of code could lead somewhere extraordinary.</p></div><button class="btn ghost" onclick="openModal('signup')">Join the academy&nbsp; →</button></div></section>
+</main>
+<footer><div class="wrap foot"><div><strong>WILLTECH Code Academy</strong><br>Experience the future of learning.</div><div>© <span id="year"></span> WILLTECH. Learn beyond limits.</div></div></footer>
+<div class="modal" id="login" onclick="if(event.target===this)closeModal('login')"><div class="modal-box"><button class="close" onclick="closeModal('login')">×</button><h2>Welcome back</h2><p id="loginNote">Continue your learning journey.</p><form onsubmit="account(event,'login')"><input class="field" type="email" id="loginEmail" placeholder="Email address" required><input class="field" type="password" id="loginPass" placeholder="Password" required><button class="btn primary">Log in</button></form><div class="hint">New here? <a href="#" onclick="switchModal('login','signup');return false" style="color:#9bb9ff">Create a free account</a></div></div></div>
+<div class="modal" id="signup" onclick="if(event.target===this)closeModal('signup')"><div class="modal-box"><button class="close" onclick="closeModal('signup')">×</button><h2>Create your account</h2><p>Start learning with WILLTECH Code Academy. Demo accounts are stored only in this browser.</p><form onsubmit="account(event,'signup')"><input class="field" id="signupName" placeholder="Your name" required><input class="field" type="email" id="signupEmail" placeholder="Email address" required><input class="field" type="password" id="signupPass" minlength="6" placeholder="Password (at least 6 characters)" required><button class="btn primary">Create free account</button></form><div class="hint">Already registered? <a href="#" onclick="switchModal('signup','login');return false" style="color:#9bb9ff">Log in</a></div></div></div>
 
-<footer>
-  <div class="container">
-    <p style="margin-bottom:8px">
-      WILLTECH CODE ACADEMY — <span class="cy" style="color:var(--cyan)">EXPERIENCE THE FUTURE</span>
-    </p>
-    <p>hello@willtechacademy.com · Lagos, Nigeria</p>
-    <p style="margin-top:12px;font-size:12px">
-      © <span id="year"></span> WILLTECH · Demo ·
-      <a data-nav="verify" style="color:var(--cyan);cursor:pointer">Verify Certificate</a>
-    </p>
-  </div>
-</footer>
-
-<div class="modal-bg" id="authModal">
-  <div class="modal">
-    <div class="flex-between mb-4">
-      <h3 id="authTitle" style="font-size:22px">Sign In</h3>
-      <button id="authClose" style="font-size:22px;color:var(--muted)">×</button>
-    </div>
-    <div id="authBody"></div>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
+<div class="modal" id="lessonModal" onclick="if(event.target===this)closeModal('lessonModal')"><div class="modal-box" style="width:min(650px,100%);max-height:88vh;overflow:auto"><button class="close" onclick="closeModal('lessonModal')">×</button><div class="kicker" id="lessonKicker">STARTER COURSE</div><h2 id="lessonTitle">Course lessons</h2><p id="lessonIntro">Choose a lesson to begin.</p><div id="lessonItems" style="display:grid;gap:10px;margin-top:18px"></div><div id="lessonContent" class="card" style="display:none;margin-top:16px"><div class="kicker" id="lessonNumber"></div><h3 id="lessonHeading"></h3><p id="lessonBody" style="white-space:pre-line;color:#c3cde2"></p><pre id="lessonExample" style="white-space:pre-wrap;background:#080f20;border:1px solid var(--line);padding:14px;border-radius:12px;color:#b9e2ff;overflow:auto"></pre><div id="lessonExtra"></div><button class="btn primary" id="completeLessonBtn" style="margin-top:14px" onclick="completeCurrentLesson()">Mark lesson complete ✓</button></div></div></div>
 
 <script>
-(function(){
-  "use strict";
+const courses=[["Py","Python","Start programming with one of the world's most popular languages."],["JS","JavaScript","Make websites interactive and bring ideas to life."],["HTML","HTML & CSS","Build and style beautiful websites from scratch."],["J","Java","Learn object-oriented programming and application development."],["C+","C++","Explore performance-focused programming fundamentals."],["SQL","SQL","Work with databases and organise information."],["PHP","PHP","Build dynamic websites and server-side features."],["TS","TypeScript","Write clearer, scalable JavaScript applications."],["C#","C#","Create applications and explore the .NET ecosystem."],["Go","Go","Learn a simple, efficient language for modern systems."],["Rs","Rust","Explore safe and reliable systems programming."],["Rb","Ruby","Write expressive code and build useful applications."],["Sw","Swift","Discover app development for Apple platforms."]];
+document.getElementById('courseGrid').innerHTML=courses.map((c,i)=>`<article class="card"><div class="lang-icon">${c[0]}</div><h3>${c[1]}</h3><p>${c[2]}</p><div class="card-bottom"><span>Beginner friendly</span><button class="pill" style="background:transparent;cursor:pointer" onclick="openCourse(${i})">Start learning →</button></div></article>`).join('');
+document.getElementById('year').textContent=new Date().getFullYear();
+function openModal(id){document.getElementById(id).classList.add('show')}function closeModal(id){document.getElementById(id).classList.remove('show')}function switchModal(a,b){closeModal(a);openModal(b)}
+function account(e,type){e.preventDefault();let email=document.getElementById(type==='login'?'loginEmail':'signupEmail').value;let pass=document.getElementById(type==='login'?'loginPass':'signupPass').value;let users=JSON.parse(localStorage.getItem('willtechUsers')||'{}');if(type==='signup'){if(users[email]){alert('An account with this email already exists.');return}users[email]={name:document.getElementById('signupName').value,password:pass};localStorage.setItem('willtechUsers',JSON.stringify(users));localStorage.setItem('willtechCurrentUser',email);alert('Welcome to WILLTECH, '+users[email].name+'! Your demo account has been created on this device.')}else{if(!users[email]||users[email].password!==pass){alert('Email or password not recognised on this device.');return}localStorage.setItem('willtechCurrentUser',email);alert('Welcome back, '+users[email].name+'!')}{const p=pendingCourse;closeModal(type);updateAuthUI();if(p!==null)openCourse(p)}}
+function askTutor(e){e.preventDefault();let input=document.getElementById('questionInput'),q=input.value.trim();if(!q)return;let box=document.getElementById('messages');box.innerHTML+=`<div class="msg me">${escapeHtml(q)}</div>`;let lower=q.toLowerCase(),reply="Great question! Break the problem into smaller steps, test one idea at a time, and read any error message carefully. Tell me which programming language you're using and I can make the explanation more specific.";if(lower.includes('variable'))reply="A variable is a named place to store information. Example in Python: name = 'Alex'. The variable name now stores the text Alex.";else if(lower.includes('html'))reply="HTML gives a webpage its structure. For example, <h1>Hello</h1> creates a main heading. CSS controls how it looks, while JavaScript adds behaviour.";else if(lower.includes('python'))reply="Python is a beginner-friendly programming language. Try: print('Hello, world!') — print() displays information in the output.";else if(lower.includes('javascript')||lower.includes(' js'))reply="JavaScript adds behaviour to websites. For example: console.log('Hello!') writes a message to the browser console.";else if(lower.includes('error')||lower.includes('bug'))reply="Debugging tip: read the first error message, check the line number, inspect spelling and brackets, then run the code again.";box.innerHTML+=`<div class="msg">${reply}</div>`;box.scrollTop=box.scrollHeight;input.value=''}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function checkAnswer(btn,correct){document.querySelectorAll('.answer').forEach(x=>x.classList.remove('correct','wrong'));btn.classList.add(correct?'correct':'wrong');document.getElementById('feedback').textContent=correct?'Correct! The = symbol assigns a value to a variable. 🎉':'Not quite. Try again — assignment uses a single equals sign (=).'}
+function runCode(){let code=document.getElementById('code').value;try{let logs=[];let fakeConsole={log:(...a)=>logs.push(a.join(' '))};new Function('console',code)(fakeConsole);document.getElementById('output').textContent=logs.join('\n')||'Code ran successfully (no output).'}catch(err){document.getElementById('output').textContent='Error: '+err.message}}
+
+const starterLessons = {
+ Python:[
+  ["Meet Python","Python is a programming language used for websites, automation, data and much more. You can write instructions that the computer follows, one step at a time.","print('Hello, world!')"],
+  ["Variables","A variable is a named place to store a value. Use = to assign a value. Text is written inside quotation marks.","student = 'Alex'\nage = 18\nprint(student)\nprint(age)"],
+  ["Make decisions","An if statement lets your program make a decision. The indented line runs only when the condition is true.","score = 75\nif score >= 50:\n    print('You passed!')"]
+ ],
+ JavaScript:[
+  ["Meet JavaScript","JavaScript adds interaction to websites. It can respond to clicks, update page content and work with data.","console.log('Hello, world!');"],
+  ["Variables","Use const for values you do not reassign and let when the value may change.","const learner = 'Alex';\nlet points = 10;\nconsole.log(learner, points);"],
+  ["Functions","A function is a reusable set of instructions. Call it by writing its name followed by parentheses.","function greet(name) {\n  return 'Hello, ' + name;\n}\nconsole.log(greet('Alex'));"]
+ ],
+ "HTML & CSS":[
+  ["Your first HTML page","HTML describes the structure of a webpage. Headings, paragraphs, links and images are common HTML elements.","<h1>My first page</h1>\n<p>I am learning to build for the web.</p>"],
+  ["Elements and tags","Most HTML elements use an opening tag and a closing tag. The content goes between them.","<h2>About me</h2>\n<p>I enjoy learning technology.</p>"],
+  ["Style with CSS","CSS controls how HTML looks. You can change colours, spacing, fonts and layout.","h1 {\n  color: royalblue;\n  font-size: 32px;\n}"]
+ ]
+};
+/* ===== Expanded curriculum ===== */
+const more={
+Python:[["Loops","Loops repeat actions so you don't have to write the same line again and again. A for loop walks through a sequence; a while loop repeats as long as a condition is true.\n\nTip: range(5) gives 0,1,2,3,4 (it stops before 5).","for i in range(3):\n    print('Round', i)\n\ncount = 3\nwhile count > 0:\n    print(count)\n    count -= 1"],["Lists & dictionaries","A list stores items in order (counting starts at 0). A dictionary stores labelled pairs: a key and its value. Together they let you model real data like a shopping basket or a user profile.","fruits = ['apple', 'mango']\nfruits.append('banana')\nprint(fruits[0], len(fruits))\n\nuser = {'name': 'Ada', 'level': 3}\nprint(user['name'])"],["Functions","Functions package code you want to reuse. Use def, give it inputs (parameters) and send back a result with return. Good functions do one job and have a clear name.","def area(w, h):\n    return w * h\n\nprint(area(4, 5))   # 20"]],
+JavaScript:[["Conditions","Conditions let code choose a path. Use === to compare values (not ==), and && (and), || (or), ! (not) to combine tests.","const age = 17;\nif (age >= 18) {\n  console.log('Adult');\n} else {\n  console.log('Minor');\n}"],["Arrays & loops","An array holds a list of values. Use for...of to visit each item, and methods like map and filter to transform data in one clean line.","const nums = [1, 2, 3, 4];\nfor (const n of nums) console.log(n);\nconsole.log(nums.map(n => n * 2));\nconsole.log(nums.filter(n => n % 2 === 0));"],["Events & the page","The DOM is the live structure of a webpage. JavaScript can find an element, listen for an event such as a click, and change what the user sees.","button.addEventListener('click', () => {\n  title.textContent = 'You clicked me!';\n});"]],
+"HTML & CSS":[["Links, images & lists","The a tag creates links, img shows pictures (always add alt text for accessibility), and ul/ol with li make bullet or numbered lists.","<a href=\"https://example.com\">Visit site</a>\n<img src=\"cat.jpg\" alt=\"A sleeping cat\">\n<ul>\n  <li>HTML</li>\n  <li>CSS</li>\n</ul>"],["The box model & Flexbox","Every element is a box: content, padding, border, margin. Flexbox lines boxes up in a row or column and spaces them evenly.","nav {\n  display: flex;\n  gap: 16px;\n  justify-content: space-between;\n  padding: 12px;\n}"],["Forms","Forms collect information. Each input needs a label so everyone, including screen-reader users, knows what to type.","<form>\n  <label for=\"n\">Name</label>\n  <input id=\"n\" type=\"text\" required>\n  <button>Send</button>\n</form>"]],
+Java:[["Meet Java","Java is strongly typed and runs almost anywhere through the JVM. Every program starts in a main method inside a class.","public class Main {\n  public static void main(String[] args) {\n    System.out.println(\"Hello, Java!\");\n  }\n}"],["Types & variables","You must declare a type for each variable: int for whole numbers, double for decimals, String for text, boolean for true/false.","int age = 20;\ndouble price = 9.99;\nString name = \"Ada\";\nboolean ok = true;"],["Control flow","Use if/else to decide and for loops to repeat.","for (int i = 1; i <= 3; i++) {\n  if (i % 2 == 0) System.out.println(i + \" is even\");\n  else System.out.println(i + \" is odd\");\n}"],["Classes & objects","A class is a blueprint; an object is a thing built from it. This is the heart of object-oriented programming.","class Dog {\n  String name;\n  Dog(String n) { name = n; }\n  void bark() { System.out.println(name + \" says woof\"); }\n}\nnew Dog(\"Rex\").bark();"]],
+"C++":[["Meet C++","C++ is compiled and gives you fine control over memory and speed. It powers games, browsers and embedded systems.","#include <iostream>\nint main() {\n  std::cout << \"Hello, C++!\" << std::endl;\n  return 0;\n}"],["Variables & input","Declare types, then read keyboard input with std::cin.","int age;\nstd::cout << \"Age? \";\nstd::cin >> age;\nstd::cout << \"Next year: \" << age + 1;"],["Functions & vectors","Functions reuse logic; std::vector is a resizable list.","#include <vector>\nint sum(const std::vector<int>& v) {\n  int t = 0;\n  for (int x : v) t += x;\n  return t;\n}"],["Pointers (the big idea)","A pointer stores the memory address of another variable. Learning them unlocks how computers really work.","int x = 5;\nint* p = &x;   // p holds x's address\n*p = 10;       // x is now 10"]],
+SQL:[["Meet databases","A database stores data in tables made of rows and columns. SQL is the language you use to ask questions of that data.","SELECT name, age\nFROM students;"],["Filtering & sorting","WHERE narrows rows, ORDER BY sorts them, LIMIT keeps only the first few.","SELECT name, score\nFROM students\nWHERE score >= 50\nORDER BY score DESC\nLIMIT 5;"],["Changing data","INSERT adds rows, UPDATE edits them, DELETE removes them. Always use WHERE with UPDATE and DELETE, or you'll change every row!","INSERT INTO students (name, score) VALUES ('Ada', 90);\nUPDATE students SET score = 95 WHERE name = 'Ada';"],["Joins & totals","JOIN combines tables through a shared column. GROUP BY with COUNT or AVG summarises data.","SELECT c.title, COUNT(*) AS learners\nFROM enrolments e\nJOIN courses c ON c.id = e.course_id\nGROUP BY c.title;"]],
+PHP:[["Meet PHP","PHP runs on the server and produces the page the browser receives. Code lives between <?php and ?> and variables start with $.","<?php\n$name = 'Ada';\necho \"Hello, $name!\";\n?>"],["Arrays & loops","PHP arrays can be lists or key-value maps. foreach loops through them.","<?php\n$skills = ['HTML', 'PHP', 'SQL'];\nforeach ($skills as $s) {\n  echo $s . '<br>';\n}"],["Handling forms","Data submitted by a form arrives in $_POST or $_GET. Always escape output with htmlspecialchars to prevent attacks.","<?php\nif ($_SERVER['REQUEST_METHOD'] === 'POST') {\n  $n = htmlspecialchars($_POST['name']);\n  echo \"Welcome, $n\";\n}"],["Talking to a database","Use PDO with prepared statements; they keep user input safe from SQL injection.","<?php\n$st = $pdo->prepare('SELECT * FROM users WHERE id = ?');\n$st->execute([$id]);\n$user = $st->fetch();"]],
+TypeScript:[["Why TypeScript?","TypeScript is JavaScript plus types. Your editor catches mistakes before the code ever runs.","let age: number = 20;\nage = 'twenty'; // Error: string is not a number"],["Types & interfaces","An interface describes the shape of an object so everyone uses it correctly.","interface User {\n  name: string;\n  age?: number; // optional\n}\nconst u: User = { name: 'Ada' };"],["Typed functions","Annotate parameters and return values to document intent.","function add(a: number, b: number): number {\n  return a + b;\n}"],["Unions & generics","A union allows several types; generics make reusable, type-safe tools.","let id: string | number = 7;\nfunction first<T>(list: T[]): T {\n  return list[0];\n}"]],
+"C#":[["Meet C#","C# is a modern, versatile language from Microsoft used for apps, games (Unity) and web services.","Console.WriteLine(\"Hello, C#!\");"],["Variables & types","C# is typed; var lets the compiler infer the type.","int score = 10;\nstring name = \"Ada\";\nvar ratio = 0.75;\nConsole.WriteLine($\"{name}: {score}\");"],["Collections & LINQ","List<T> stores items. LINQ lets you query them elegantly.","var nums = new List<int>{1,2,3,4,5};\nvar evens = nums.Where(n => n % 2 == 0);\nConsole.WriteLine(string.Join(\",\", evens));"],["Classes","Classes bundle data and behaviour. Properties control access to data.","class Player {\n  public string Name { get; set; }\n  public void Greet() => Console.WriteLine($\"Hi {Name}\");\n}"]],
+Go:[["Meet Go","Go (Golang) was built at Google to be simple, fast and great at concurrency. Programs start in package main.","package main\nimport \"fmt\"\nfunc main() {\n  fmt.Println(\"Hello, Go!\")\n}"],["Variables & functions","Use := to declare a variable quickly. Functions can return several values.","func divide(a, b float64) (float64, error) {\n  if b == 0 { return 0, fmt.Errorf(\"divide by zero\") }\n  return a / b, nil\n}"],["Slices & maps","A slice is a flexible list; a map stores key-value pairs.","s := []int{1, 2, 3}\ns = append(s, 4)\nm := map[string]int{\"Ada\": 90}\nfmt.Println(s, m[\"Ada\"])"],["Goroutines","Put go before a function call to run it concurrently. This makes Go superb for servers.","go func() {\n  fmt.Println(\"I run alongside main!\")\n}()"]],
+Rust:[["Meet Rust","Rust gives C-like speed with memory safety, checked by the compiler. It is strict, but that strictness prevents whole classes of bugs.","fn main() {\n    println!(\"Hello, Rust!\");\n}"],["Variables are immutable","By default, variables can't change. Add mut when you need that.","let x = 5;\nlet mut y = 5;\ny += 1;\nprintln!(\"{x} {y}\");"],["Ownership","Each value has one owner. When you hand it to another variable, the first can no longer use it. This rule is how Rust manages memory without a garbage collector.","let a = String::from(\"hi\");\nlet b = a;      // ownership moves to b\n// println!(\"{a}\"); // error!\nprintln!(\"{b}\");"],["Option & Result","Rust has no null. Option says a value may be missing; Result says an action may fail. You must handle both.","let n: Option<i32> = Some(3);\nmatch n {\n    Some(v) => println!(\"got {v}\"),\n    None => println!(\"nothing\"),\n}"]],
+Ruby:[["Meet Ruby","Ruby reads almost like English and was designed for programmer happiness. It powers Ruby on Rails.","puts 'Hello, Ruby!'"],["Variables & strings","No type declarations needed. Use #{} to place values inside text.","name = 'Ada'\nage = 20\nputs \"#{name} is #{age}\""],["Arrays & blocks","Blocks let you run code for each item.","[1, 2, 3].each do |n|\n  puts n * 2\nend\nputs [1,2,3,4].select(&:even?).inspect"],["Classes","Everything in Ruby is an object. Define your own with class.","class Dog\n  def initialize(name) = @name = name\n  def bark = puts(\"#{@name} says woof\")\nend\nDog.new('Rex').bark"]],
+Swift:[["Meet Swift","Swift is Apple's modern language for iPhone, iPad, Mac and Watch apps. It's safe, fast and readable.","print(\"Hello, Swift!\")"],["let vs var","Use let for constants and var for values that change. Swift infers types for you.","let name = \"Ada\"\nvar score = 10\nscore += 5\nprint(\"\\(name): \\(score)\")"],["Optionals","An optional may hold a value or nil. Unwrap it safely with if let.","var nick: String? = nil\nif let n = nick {\n  print(n)\n} else {\n  print(\"No nickname\")\n}"],["Structs & SwiftUI","Structs group data. SwiftUI builds screens by describing them in code.","struct ContentView: View {\n  var body: some View {\n    Text(\"Hello, iOS!\")\n  }\n}"]]};
+for(const k in more){starterLessons[k]=(starterLessons[k]||[]).concat(more[k])}
+const totalLessons=()=>Object.values(starterLessons).reduce((a,l)=>a+l.length,0);
+
+let activeCourse = null, activeLessonIndex = 0;
+function openCourse(index){
+ if(!currentUser()){pendingCourse=index;document.getElementById('loginNote').textContent='🔒 Please log in or create a free account to start learning.';openModal('login');return}
+ const course = courses[index]; activeCourse = course[1];
+ const lessons = starterLessons[activeCourse] || [
+  ["Introduction","Welcome to "+activeCourse+". This learning path will introduce the language, its common uses and its basic building blocks.","// Your "+activeCourse+" journey starts here"],
+  ["Core concepts","Practise reading examples, identifying the important parts and changing values to see what happens.","// Change this example as you learn"],
+  ["Your first mini project","Use what you have learned to plan and build a small project. Start simple, test often and improve it.","// Plan -> Build -> Test"]
+ ];
+ document.getElementById('lessonKicker').textContent = 'LEARNING PATH · '+activeCourse.toUpperCase();
+ document.getElementById('lessonTitle').textContent = activeCourse+' starter lessons';
+ document.getElementById('lessonIntro').textContent = 'Choose a lesson. Complete it to update your dashboard.';
+ document.getElementById('lessonContent').style.display='none';
+ document.getElementById('lessonItems').innerHTML=lessons.map((l,i)=>`<button class="answer" style="text-align:left" onclick="showLesson(${i})"><strong>Lesson ${i+1}: ${l[0]}</strong><br><small style="color:var(--muted)">${l[1].split('.')[0]}.</small></button>`).join('');
+ window.currentLessons=lessons;
+ openModal('lessonModal');
+}
+function showLesson(i){
+ activeLessonIndex=i; const l=window.currentLessons[i], key=activeCourse+'-'+i;
+ document.getElementById('lessonContent').style.display='block';
+ document.getElementById('lessonNumber').textContent='LESSON '+(i+1);
+ document.getElementById('lessonHeading').textContent=l[0];
+ document.getElementById('lessonBody').textContent=l[1];
+ document.getElementById('lessonExample').textContent=l[2];
+ const done=(JSON.parse(localStorage.getItem('willtechCompleted')||'[]')).includes(key);
+ document.getElementById('completeLessonBtn').textContent=done?'Completed ✓':'Mark lesson complete ✓';
+ document.getElementById('completeLessonBtn').disabled=done;
+}
+function completeCurrentLesson(){
+ const key=activeCourse+'-'+activeLessonIndex;
+ const done=JSON.parse(localStorage.getItem('willtechCompleted')||'[]');
+ if(!done.includes(key))done.push(key);
+ localStorage.setItem('willtechCompleted',JSON.stringify(done));
+ updateDashboard(); showLesson(activeLessonIndex);
+}
+function updateDashboard(){
+ const done=JSON.parse(localStorage.getItem('willtechCompleted')||'[]');
+ document.getElementById('progressCount').textContent=done.length;
+ document.getElementById('progressBadge').textContent=done.length+' lessons completed';
+ document.getElementById('progressBar').style.width=Math.min(100,done.length/totalLessons()*100)+'%';
+ document.getElementById('completedList').textContent=done.length?done.map(x=>'✓ '+x.replace('-', ' · Lesson ').replace(/Lesson (\d+)/,(m,n)=>'Lesson '+(+n+1))).join('   |   '):'No lessons completed yet. Your first lesson is waiting!';
+}
+updateDashboard();
+
+/* ===== Access control ===== */
+let pendingCourse=null;
+function currentUser(){try{const u=JSON.parse(localStorage.getItem('willtechUsers')||'{}'),e=localStorage.getItem('willtechCurrentUser');return e&&u[e]?u[e]:null}catch(x){return null}}
+function logout(){localStorage.removeItem('willtechCurrentUser');closeModal('lessonModal');updateAuthUI()}
+function updateAuthUI(){const g=document.querySelector('.nav-actions .ghost'),pr=document.querySelector('.nav-actions .primary'),u=currentUser();
+ if(u){g.textContent='Log out';g.setAttribute('onclick','logout()');g.style.display='inline-block';pr.style.display='none'}
+ else{g.textContent='Log in';g.setAttribute('onclick',"openModal('login')");g.style.display='';pr.style.display=''}
+ document.getElementById('loginNote').textContent='Continue your learning journey.'}
+const _cm=closeModal;closeModal=function(id){if(id==='login'||id==='signup')pendingCourse=null;if(id==='login')document.getElementById('loginNote').textContent='Continue your learning journey.';_cm(id)};
+const _sw=switchModal;switchModal=function(a,b){const p=pendingCourse;_sw(a,b);pendingCourse=p};
+updateAuthUI();
+/* ===== Quizzes & exercises ===== */
+const QZ={
+Python:["Which function shows text on screen?|print()|show()|say()|0|Change the message to greet yourself by name.","Which is a valid variable assignment?|age = 18|18 = age|age == 18|0|Create variables for your name and favourite number, then print both.","What does an if block do?|Repeats code|Runs code only if a condition is true|Stores a value|1|Change score to 30 and predict the output before running.","What does range(3) produce?|1,2,3|0,1,2|0,1,2,3|1|Write a loop that prints the numbers 1 to 5.","What index is the first item in a list?|1|0|-1|1|Make a list of three hobbies and print the last one.","Which keyword sends a value back from a function?|give|return|output|1|Write a function that doubles a number."],
+JavaScript:["Which prints to the console?|console.log()|print()|echo()|0|Make it log your own name.","Which keyword declares a value that is not reassigned?|let|const|var|1|Declare a const city and a let counter, then change the counter.","How do you run a function called greet?|greet()|run greet|greet:|0|Write a function that adds two numbers.","Which operator is strict equality?|=|==|===|2|Write an if/else that checks whether a number is above 10.","What does map() return?|A new array|One number|Nothing|0|Use map to square [1,2,3].","Which method attaches a click listener?|onClickAdd()|addEventListener()|listen()|1|Predict what would change on the page after a click."],
+"HTML & CSS":["Which tag makes the main heading?|<h1>|<head>|<p>|0|Add a second paragraph about your goals.","How do most HTML elements end?|With a closing tag|With a semicolon|They don't|0|Add an h2 and a p about a hobby.","What does CSS control?|Appearance|Server code|Databases|0|Change the colour to tomato and the size to 48px.","Which attribute describes an image for screen readers?|src|alt|href|1|Write an img tag for a dog photo with good alt text.","Which line makes boxes sit in a row?|display: flex|float: none|position: fixed|0|Add gap: 24px and note what changes.","What links a label to its input?|for and id|class|style|0|Add an email field with its own label."],
+Java:["Where does a Java program start?|The main method|The print method|The init file|0|Print your own name instead.","Which type stores whole numbers?|int|String|double|0|Declare your age and favourite food.","What does i++ do?|Adds 1 to i|Deletes i|Compares i|0|Print the odd numbers up to 9.","A class is a...|Blueprint for objects|Kind of loop|File type|0|Create a Dog named Max and make it bark."],
+"C++":["Which header gives you cout?|<iostream>|<stdio>|<cout>|0|Print three lines of text.","Which reads keyboard input?|std::cin|std::in|read()|0|Ask for a name and greet the user.","What is std::vector?|A resizable list|A number type|A loop|0|Sum the numbers 1 to 5 using a vector.","What does &x give you?|The address of x|The value of x|The size of x|0|Change *p to 99 and print x."],
+SQL:["What does SELECT do?|Reads data|Deletes tables|Creates users|0|Select only the name column.","Which clause filters rows?|WHERE|ORDER BY|LIMIT|0|Show students scoring above 70.","UPDATE without WHERE changes...|Every row|Nothing|One row|0|Write an INSERT for a new student.","What does JOIN do?|Combines tables|Sorts rows|Deletes rows|0|Count learners per course, sorted high to low."],
+PHP:["How do PHP variables start?|$|@|#|0|Echo your own name.","Which loop walks through an array?|foreach|each|iterate|0|Add a fourth skill and print it.","Which function makes output safe?|htmlspecialchars|echo|trim|0|Also print the user's age safely.","Why use prepared statements?|They block SQL injection|They only run faster|They style pages|0|Write a query that finds users by email."],
+TypeScript:["What does TypeScript add to JavaScript?|Types|Loops|Colours|0|Declare a boolean variable.","What does age?: number mean?|Optional property|An error|A constant|0|Add an email string to User.","What is add's return type?|number|string|void|0|Write a multiply function.","string | number means...|Either type|Both at once|Neither|0|Try writing a generic last<T> function."],
+"C#":["Which prints a line?|Console.WriteLine|print|echo|0|Greet yourself.","What does var do?|Infers the type|Makes it global|Deletes it|0|Print three variables with interpolation.","What does LINQ do?|Queries collections|Draws UI|Compiles code|0|Filter numbers greater than 2.","What controls access to a class's data?|Properties|Loops|Comments|0|Add an Age property."],
+Go:["Which package prints text?|fmt|print|io.out|0|Print your name.","What does := do?|Declares and assigns|Compares|Loops|0|Make a function that returns two values.","Which is Go's flexible list?|Slice|Vector|ArrayList|0|Append a number to s.","What does the go keyword do?|Runs code concurrently|Jumps lines|Imports a file|0|Think about why servers want this."],
+Rust:["Which macro prints?|println!|print()|echo|0|Print your name.","How do you make a variable changeable?|mut|var|let!|0|Add 10 to y.","After let b = a; can you still use a (a String)?|No, ownership moved|Yes|Only twice|0|Use .clone() to keep both.","What replaces null in Rust?|Option|Nil|Void|0|Match on None to print a message."],
+Ruby:["Which prints a line?|puts|echo|print()|0|Greet yourself.","How do you insert a value in a string?|#{}|${}|%%|0|Add a city variable to the string.","What is |n| in a block?|A block parameter|An or operator|A comment|0|Print the squares of 1 to 4.","How do you create an object?|Dog.new|new Dog|make Dog|0|Add a second dog."],
+Swift:["Which prints a line?|print()|echo|log|0|Greet yourself.","Which declares a constant?|let|var|const|0|Add 20 to score.","An optional may hold...|A value or nil|Only numbers|A loop|0|Set nick to a name and see the output.","SwiftUI builds screens by...|Describing them in code|Only dragging|Writing HTML|0|Change the displayed text."]};
+function renderExtra(i){
+ const raw=(QZ[activeCourse]||[])[i], box=document.getElementById('lessonExtra'); if(!raw){box.innerHTML='';return}
+ const [q,a,b,c,ix,task]=raw.split('|'), opts=[a,b,c], right=opts[+ix], r=(i+1)%3, sh=opts.map((_,k)=>opts[(k+r)%3]);
+ const key='q-'+activeCourse+'-'+i, passed=(JSON.parse(localStorage.getItem('willtechQuiz')||'[]')).includes(key);
+ box.innerHTML=`<div class="kicker" style="margin-top:16px">Try it yourself</div><p style="color:#c3cde2;margin:6px 0">${escapeHtml(task)}</p>`+(activeCourse==='JavaScript'&&i<5?`<button class="btn ghost" onclick="loadPlay()">▶ Open example in playground</button>`:`<p class="sub" style="font-size:12px">Edit the example above in your own editor or an online playground.</p>`)+`<div class="kicker" style="margin-top:18px">Quick quiz ${passed?'· ✓ passed':''}</div><p style="font-weight:700;margin:6px 0">${escapeHtml(q)}</p><div style="display:grid;gap:8px">`+sh.map(o=>`<button class="qa" data-ok="${o===right}">${escapeHtml(o)}</button>`).join('')+`</div><div class="sub" id="qfb" style="min-height:22px;margin:8px 0"></div>`;
+ box.querySelectorAll('.qa').forEach(bt=>bt.onclick=()=>{const ok=bt.dataset.ok==='true';box.querySelectorAll('.qa').forEach(x=>x.classList.remove('correct','wrong'));bt.classList.add(ok?'correct':'wrong');document.getElementById('qfb').textContent=ok?'Correct! 🎉 Now mark the lesson complete.':'Not quite — re-read the lesson and try again.';if(ok){const p=JSON.parse(localStorage.getItem('willtechQuiz')||'[]');if(!p.includes(key)){p.push(key);localStorage.setItem('willtechQuiz',JSON.stringify(p))}}});
+}
+function loadPlay(){document.getElementById('code').value=document.getElementById('lessonExample').textContent;closeModal('lessonModal');document.getElementById('practice').scrollIntoView()}
+const _show=showLesson;showLesson=function(i){_show(i);renderExtra(i)};
 
-  /* ---------- Toast ---------- */
-  let toastTimer;
-  function toast(msg, type){
-    type = type || "success";
-    var el = document.getElementById("toast");
-    el.textContent = msg;
-    el.className = "toast " + type + " show";
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(function(){ el.classList.remove("show"); }, 2800);
-  }
-
-  /* ---------- Storage ---------- */
-  var Store = {
-    get: function(k, def){
-      try { var v = localStorage.getItem("wt_" + k);
-            return v === null ? def : JSON.parse(v); }
-      catch(e){ return def; }
-    },
-    set: function(k, v){
-      try { localStorage.setItem("wt_" + k, JSON.stringify(v)); } catch(e){}
-    },
-    del: function(k){
-      try { localStorage.removeItem("wt_" + k); } catch(e){}
-    }
-  };
-
-  /* ---------- Courses ---------- */
-  var COURSES = [
-    { id:"python", icon:"🐍", title:"Python", level:"beginner", premium:false,
-      desc:"Master Python from syntax to real programs — variables, loops, functions, OOP.",
-      lessons:[
-        { chapter:"Getting Started", title:"Hello, World!",
-          content:'Your first Python program:\n\n    print("Hello, World!")\n\nThe print() function displays text to the screen.',
-          exercise:"Print your own name." },
-        { chapter:"Getting Started", title:"Variables and Types",
-          content:'    name = "Ada"\n    print(name)\n\nPython is dynamically typed.\n- int = whole numbers\n- float = decimals\n- str = text\n- bool = True/False',
-          exercise:"Create variables for your age, name, and favourite number, then print them." },
-        { chapter:"Control Flow", title:"If / Elif / Else",
-          content:'    age = 20\n    if age >= 18:\n        print("Adult")\n    elif age >= 13:\n        print("Teen")\n    else:\n        print("Child")',
-          exercise:"Classify a number as positive, negative, or zero." },
-        { chapter:"Control Flow", title:"Loops",
-          content:'    for i in range(5):\n        print(i)\n\n    n = 3\n    while n > 0:\n        print(n)\n        n -= 1',
-          exercise:"Print the first 10 even numbers using a for loop." },
-        { chapter:"Functions", title:"Defining Functions",
-          content:'    def greet(name):\n        return "Hello, " + name + "!"\n\n    print(greet("Ada"))\n\nFunctions keep your code reusable.',
-          exercise:"Write a function square(n) that returns n squared." }
-      ],
-      quiz:[
-        { q:"What does print('hi') do?",
-          options:["Writes to a file","Outputs 'hi' to the console","Deletes 'hi'","Raises an error"],
-          answer:1, explanation:"print() outputs its argument to stdout." },
-        { q:"Which keyword defines a function in Python?",
-          options:["func","def","function","lambda"],
-          answer:1, explanation:"Python uses the def keyword." },
-        { q:"What's 2 + 3 * 2?",
-          options:["10","8","12","6"],
-          answer:1, explanation:"Multiplication before addition: 3*2=6, then 2+6=8." }
-      ]
-    },
-    { id:"javascript", icon:"⚡", title:"JavaScript", level:"beginner", premium:false,
-      desc:"The language of the web. Learn DOM, events, async, fetch, and modern ES2023.",
-      lessons:[
-        { chapter:"Basics", title:"Hello, JS",
-          content:'    console.log("Hello, World!");',
-          exercise:"Print your name to the console." },
-        { chapter:"Basics", title:"Variables",
-          content:'    let name = "Ada";\n    const age = 25;\n\nUse const by default, let when you need to reassign.',
-          exercise:"Create variables for name, age and country." },
-        { chapter:"Functions", title:"Arrow Functions",
-          content:'    const add = (a, b) => a + b;\n    console.log(add(2, 3));',
-          exercise:"Write an arrow function that squares a number." }
-      ],
-      quiz:[
-        { q:"Which declares a constant in JS?",
-          options:["var","let","const","static"],
-          answer:2, explanation:"const declares a block-scoped constant." },
-        { q:"What does console.log() do?",
-          options:["Prints to console","Alerts user","Saves to file","Nothing"],
-          answer:0, explanation:"It logs to the developer console." }
-      ]
-    },
-    { id:"html-css", icon:"🎨", title:"HTML & CSS", level:"beginner", premium:false,
-      desc:"Build beautiful, semantic, responsive pages from scratch.",
-      lessons:[
-        { chapter:"HTML", title:"Your First Page",
-          content:'<h1>Hello!</h1>\n<p>This is a paragraph.</p>',
-          exercise:"Build a page with a heading and a paragraph." },
-        { chapter:"CSS", title:"Styling Basics",
-          content:'    body {\n      background: #050b24;\n      color: white;\n      font-family: sans-serif;\n    }',
-          exercise:"Center a heading on the page using flexbox." }
-      ],
-      quiz:[
-        { q:"Which tag creates a heading?",
-          options:["<h1>","<head>","<title>","<p>"],
-          answer:0, explanation:"<h1> is a top-level heading." },
-        { q:"Which CSS property sets text color?",
-          options:["background","color","font","fill"],
-          answer:1, explanation:"color sets text color." }
-      ]
-    },
-    { id:"sql", icon:"🗄️", title:"SQL", level:"beginner", premium:false,
-      desc:"Query, model, and manipulate relational data with confidence.",
-      lessons:[
-        { chapter:"Queries", title:"SELECT",
-          content:'    SELECT * FROM users;\n    SELECT name, age FROM users WHERE age >= 18;',
-          exercise:"Write a query that selects users older than 20." }
-      ],
-      quiz:[
-        { q:"What does SELECT do?",
-          options:["Deletes rows","Reads data","Updates rows","Creates tables"],
-          answer:1, explanation:"SELECT reads data from tables." }
-      ]
-    },
-    { id:"java", icon:"☕", title:"Java", level:"intermediate", premium:true,
-      desc:"Object-oriented programming, collections, and enterprise patterns.",
-      lessons:[
-        { chapter:"Basics", title:"Hello, Java",
-          content:'    public class Main {\n      public static void main(String[] a) {\n        System.out.println("Hello!");\n      }\n    }',
-          exercise:"Print your name." }
-      ],
-      quiz:[
-        { q:"Which method is the entry point?",
-          options:["start()","main()","run()","init()"],
-          answer:1, explanation:"main is the entry point." }
-      ]
-    },
-    { id:"c++", icon:"⚙️", title:"C++", level:"advanced", premium:true,
-      desc:"Systems programming, memory, performance, and algorithms.", lessons:[], quiz:[] },
-    { id:"php", icon:"🐘", title:"PHP", level:"intermediate", premium:true,
-      desc:"Server-side scripting, MVC, and building real APIs.", lessons:[], quiz:[] },
-    { id:"typescript", icon:"🟦", title:"TypeScript", level:"intermediate", premium:true,
-      desc:"Type-safe JavaScript for large applications.", lessons:[], quiz:[] },
-    { id:"csharp", icon:"🎯", title:"C#", level:"intermediate", premium:true,
-      desc:"Build .NET applications and modern backend services.", lessons:[], quiz:[] },
-    { id:"go", icon:"🚀", title:"Go", level:"intermediate", premium:true,
-      desc:"Fast, concurrent, cloud-native backends.", lessons:[], quiz:[] },
-    { id:"rust", icon:"🦀", title:"Rust", level:"advanced", premium:true,
-      desc:"Memory-safe systems programming with zero-cost abstractions.", lessons:[], quiz:[] },
-    { id:"ruby", icon:"💎", title:"Ruby", level:"beginner", premium:true,
-      desc:"Elegant scripting with Rails for web apps.", lessons:[], quiz:[] },
-    { id:"swift", icon:"🍎", title:"Swift", level:"intermediate", premium:true,
-      desc:"Build iOS and macOS apps with SwiftUI.", lessons:[], quiz:[] }
-  ];
-
-  /* ---------- App state ---------- */
-  var S = {
-    user: Store.get("user", null),
-    page: "home",
-    course: null,
-    lessonIdx: 0,
-    quizAnswers: [],
-    quizResult: null,
-    chat: [],
-    lang: "python"
-  };
-
-  /* ---------- Escape ---------- */
-  function esc(s){
-    return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){
-      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
-    });
-  }
-
-  /* ---------- Progress ---------- */
-  function progress(courseId){
-    return Store.get("progress_" + courseId, { done: [] });
-  }
-
-  /* ============================================================
-     RENDERERS
-     ============================================================ */
-
-  function renderHome(){
-    var features = [
-      ["🎯","13 Languages","Python, JS, C++, Rust, Swift, Go, SQL and more."],
-      ["🤖","AI Tutor","Get line-by-line explanations in your level."],
-      ["🧪","Code Playground","Write & run code right in your browser."],
-      ["🏆","Certificates","Earn verifiable PDF certificates."]
-    ];
-    var featured = COURSES.slice(0, 4);
-    return ''
-      + '<section class="hero"><div class="container">'
-      +   '<span class="pill badge">⚡ Powered by WILLTECH AI</span>'
-      +   '<h1>Learn Today.<br><span class="grad">Build Tomorrow.</span></h1>'
-      +   '<p>A futuristic programming academy that takes you from beginner to confident developer — with AI tutoring, real code execution, quizzes and certificates.</p>'
-      +   '<div class="row" style="justify-content:center">'
-      +     '<button class="btn btn-primary" data-nav="courses">Explore Courses</button>'
-      +     '<button class="btn btn-ghost" id="homeSignup">Create Free Account</button>'
-      +   '</div>'
-      + '</div></section>'
-      + '<section><div class="container grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">'
-      +   features.map(function(f){
-            return '<div class="glass card">'
-              + '<div style="font-size:32px;margin-bottom:12px">' + f[0] + '</div>'
-              + '<h3 style="font-size:18px;margin-bottom:8px">' + f[1] + '</h3>'
-              + '<p class="muted" style="font-size:13px">' + f[2] + '</p>'
-              + '</div>';
-          }).join("")
-      + '</div></section>'
-      + '<section><div class="container"><h2>Featured Courses</h2>'
-      +   '<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">'
-      +     featured.map(function(c){
-              return '<button class="glass card card-glow" style="text-align:left" data-course="' + c.id + '">'
-                + '<div style="font-size:36px;margin-bottom:10px">' + c.icon + '</div>'
-                + '<h3 style="font-size:20px">' + c.title + '</h3>'
-                + '<p class="muted mt-2" style="font-size:13px">' + esc(c.desc) + '</p>'
-                + '<div class="row mt-4" style="gap:6px">'
-                +   '<span class="pill">' + c.level + '</span>'
-                +   (c.premium ? '<span class="pill premium">Premium</span>' : '<span class="pill free">Free</span>')
-                + '</div></button>';
-            }).join("")
-      +   '</div></div></section>'
-      + '<section><div class="container"><div class="glass card" style="padding:32px">'
-      +   '<h2 style="font-size:26px;margin-bottom:12px">Meet <span style="color:var(--cyan)">WILLTECH AI Tutor</span></h2>'
-      +   '<p class="muted" style="max-width:600px">Stuck on a bug? Paste your code and ask for a line-by-line walkthrough. The tutor adapts to your level.</p>'
-      +   '<button class="btn btn-primary mt-6" data-nav="ai">Try the AI Tutor</button>'
-      + '</div></div></section>'
-      + '<section><div class="container" style="max-width:800px"><h2>FAQ</h2>'
-      +   [
-            ["Is it really free?","Yes — beginner courses are free forever. Premium unlocks intermediate/advanced content."],
-            ["Do I get certificates?","Yes, after you complete every lesson in a course and pass the quiz."],
-            ["Can I code on mobile?","Absolutely. The playground is mobile-optimised."]
-          ].map(function(faq){
-            return '<details class="glass" style="padding:14px 18px;margin-bottom:10px">'
-              + '<summary style="cursor:pointer;font-weight:600"><span style="color:var(--cyan)">▸</span> ' + faq[0] + '</summary>'
-              + '<p class="muted mt-2" style="font-size:13px">' + faq[1] + '</p>'
-              + '</details>';
-          }).join("")
-      + '</div></section>';
-  }
-
-  function renderCourses(){
-    return ''
-      + '<section><div class="container">'
-      + '<h1 class="mb-4" style="font-size:36px">All Courses</h1>'
-      + '<p class="muted mb-6">Choose a language and start learning today.</p>'
-      + '<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">'
-      +   COURSES.map(function(c){
-            return '<button class="glass card card-glow" style="text-align:left" data-course="' + c.id + '">'
-              + '<div style="font-size:40px;margin-bottom:12px">' + c.icon + '</div>'
-              + '<h3 style="font-size:20px">' + c.title + '</h3>'
-              + '<p class="muted mt-2" style="font-size:13px">' + esc(c.desc) + '</p>'
-              + '<div class="row mt-4" style="gap:6px">'
-              +   '<span class="pill">' + c.level + '</span>'
-              +   (c.premium ? '<span class="pill premium">Premium</span>' : '<span class="pill free">Free</span>')
-              +   '<span class="pill">' + c.lessons.length + ' lessons</span>'
-              + '</div></button>';
-          }).join("")
-      + '</div></div></section>';
-  }
-
-  function renderCourse(){
-    var c = S.course;
-    if (!c) return '<section><div class="container"><p>Course not found.</p></div></section>';
-
-    if (c.lessons.length === 0){
-      return ''
-        + '<section><div class="container">'
-        + '<button class="btn btn-ghost btn-sm mb-6" data-nav="courses">← Back</button>'
-        + '<div class="glass card text-center" style="padding:40px">'
-        + '<div style="font-size:60px">' + c.icon + '</div>'
-        + '<h1 class="mt-4" style="font-size:32px">' + c.title + '</h1>'
-        + '<p class="muted mt-2">Content for this course is coming soon. Explore Python, JavaScript, HTML/CSS or SQL for now.</p>'
-        + '</div></div></section>';
-    }
-
-    var lesson = c.lessons[S.lessonIdx];
-    var prog = S.user ? progress(c.id) : { done: [] };
-    var pct = Math.round((prog.done.length / c.lessons.length) * 100);
-    var isDone = prog.done.indexOf(S.lessonIdx) !== -1;
-
-    var lessonButtons = c.lessons.map(function(l, i){
-      var done = prog.done.indexOf(i) !== -1;
-      var cls = i === S.lessonIdx ? "active" : "";
-      return '<button class="' + cls + '" data-lesson="' + i + '">'
-        + (done ? '✅ ' : '') + esc(l.chapter) + ' — ' + esc(l.title)
-        + '</button>';
-    }).join("");
-
-    var quizHtml = '';
-    if (c.quiz && c.quiz.length){
-      if (S.quizResult){
-        quizHtml = '<div class="mt-6" style="border-top:1px solid var(--border);padding-top:20px">'
-          + '<h3 class="mb-4" style="font-size:20px">Quiz Result</h3>'
-          + '<div class="glass" style="padding:20px">'
-          +   '<p style="font-size:24px;color:var(--cyan);margin-bottom:16px">Score: ' + S.quizResult.score + ' / ' + S.quizResult.total + '</p>'
-          +   S.quizResult.feedback.map(function(f){
-                return '<p style="font-size:13px;margin-bottom:8px">'
-                  + '<span style="color:' + (f.correct?'#4ade80':'#f87171') + '">' + (f.correct?'✅':'❌') + '</span> '
-                  + 'Q' + (f.question_index+1) + ': <span class="muted">' + esc(f.explanation) + '</span></p>';
-              }).join("")
-          +   '<button class="btn btn-ghost btn-sm mt-4" id="retakeQuiz">Retake Quiz</button>'
-          + '</div></div>';
-      } else {
-        quizHtml = '<div class="mt-6" style="border-top:1px solid var(--border);padding-top:20px">'
-          + '<h3 class="mb-4" style="font-size:20px">' + esc(c.title) + ' Quiz</h3>'
-          + c.quiz.map(function(q, qi){
-              var opts = q.options.map(function(opt, oi){
-                var sel = S.quizAnswers[qi] === oi;
-                return '<label style="display:block;padding:8px 12px;border-radius:8px;font-size:13px;cursor:pointer;margin-bottom:4px;'
-                  + 'background:' + (sel ? 'rgba(34,211,238,.15)' : 'rgba(255,255,255,.03)') + ';'
-                  + 'border:1px solid ' + (sel ? 'rgba(34,211,238,.4)' : 'transparent') + '">'
-                  + '<input type="radio" name="q' + qi + '" data-answer="' + qi + ',' + oi + '" '
-                  + (sel ? 'checked' : '') + ' style="margin-right:8px">' + esc(opt) + '</label>';
-              }).join("");
-              return '<div style="margin-bottom:18px"><p style="font-weight:600;margin-bottom:10px;font-size:14px">' + (qi+1) + '. ' + esc(q.q) + '</p>' + opts + '</div>';
-            }).join("")
-          + '<button class="btn btn-primary btn-sm" id="submitQuiz">Submit Quiz</button>'
-          + '</div>';
-      }
-    }
-
-    return ''
-      + '<section><div class="container">'
-      + '<button class="btn btn-ghost btn-sm mb-4" data-nav="courses">← Back to courses</button>'
-      + '<div class="flex-between mb-6"><div>'
-      +   '<h1 style="font-size:32px">' + c.icon + ' ' + esc(c.title) + '</h1>'
-      +   '<p class="muted">' + esc(c.desc) + '</p>'
-      + '</div></div>'
-      + '<div class="glass" style="padding:14px;margin-bottom:20px">'
-      +   '<div class="flex-between" style="margin-bottom:8px;font-size:13px"><span>Progress</span><span>' + pct + '%</span></div>'
-      +   '<div class="progress"><div style="width:' + pct + '%"></div></div>'
-      + '</div>'
-      + '<div class="lesson-layout">'
-      +   '<aside class="glass lesson-list" style="padding:12px;height:fit-content">' + lessonButtons + '</aside>'
-      +   '<article class="glass" style="padding:24px">'
-      +     '<h2 style="font-size:24px">' + esc(lesson.title) + '</h2>'
-      +     '<p class="muted mt-2" style="font-size:13px;margin-bottom:16px">' + esc(lesson.chapter) + '</p>'
-      +     '<pre style="white-space:pre-wrap;font-family:inherit;font-size:14px;line-height:1.7">' + esc(lesson.content) + '</pre>'
-      +     (lesson.exercise
-              ? '<div style="margin-top:20px;padding:16px;border-radius:12px;background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.25)">'
-                + '<p style="color:var(--cyan);font-weight:600;font-size:13px;margin-bottom:6px">EXERCISE</p>'
-                + '<p style="font-size:14px">' + esc(lesson.exercise) + '</p></div>'
-              : '')
-      +     '<div class="row mt-6" style="gap:8px">'
-      +       (!isDone
-                ? '<button class="btn btn-primary btn-sm" id="markComplete">Mark Complete</button>'
-                : '<span class="pill">✅ Completed</span>')
-      +       '<button class="btn btn-ghost btn-sm" data-nav="playground">Open Playground</button>'
-      +       (prog.done.length === c.lessons.length && c.lessons.length > 0
-                ? '<button class="btn btn-primary btn-sm" data-nav="dashboard">🏆 Certificate</button>'
-                : '')
-      +     '</div>'
-      +     quizHtml
-      +   '</article>'
-      + '</div>'
-      + '</div></section>';
-  }
-
-  function renderPlayground(){
-    var langs = ["python","javascript","typescript","java","c++","c#","php","go","rust","ruby","swift","sql","html"];
-    var langBtns = langs.map(function(l){
-      return '<button class="pill" data-lang="' + l + '" style="cursor:pointer;padding:6px 12px">' + l + '</button>';
-    }).join("");
-    return ''
-      + '<section><div class="container">'
-      + '<h1 class="mb-4" style="font-size:32px">Interactive Playground</h1>'
-      + '<div style="padding:12px 16px;border-radius:10px;background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3);color:#fcd34d;font-size:13px;margin-bottom:16px">'
-      +   '⚠️ <strong>Browser sandbox:</strong> JavaScript runs locally. HTML previews inline. Python/Java/C++ etc. need the backend with Piston (see README). Buttons always respond.'
-      + '</div>'
-      + '<div class="row mb-4" id="langBar" style="gap:6px">' + langBtns + '</div>'
-      + '<div class="grid" style="grid-template-columns:1fr 1fr">'
-      +   '<div>'
-      +     '<textarea class="code-editor" id="codeEditor" spellcheck="false"></textarea>'
-      +     '<div class="row mt-4" style="gap:8px">'
-      +       '<button class="btn btn-primary btn-sm" id="runBtn">▶ Run</button>'
-      +       '<button class="btn btn-ghost btn-sm" id="resetBtn">Reset</button>'
-      +     '</div>'
-      +   '</div>'
-      +   '<div class="output" id="output"><span class="muted">Output appears here…</span></div>'
-      + '</div>'
-      + '</div></section>';
-  }
-
-  function renderAI(){
-    if (!S.user){
-      return ''
-        + '<section><div class="container text-center" style="padding:60px 0">'
-        + '<h1 style="font-size:32px">WILLTECH AI Tutor</h1>'
-        + '<p class="muted mt-4 mb-6">Sign in to chat with the AI Tutor.</p>'
-        + '<button class="btn btn-primary" id="aiSignIn">Sign In</button>'
-        + '</div></section>';
-    }
-    return ''
-      + '<section><div class="container" style="max-width:800px">'
-      + '<div class="flex-between mb-4">'
-      +   '<h1 style="font-size:28px">WILLTECH AI Tutor</h1>'
-      +   '<select id="aiLevel" class="input" style="width:auto;padding:8px 12px">'
-      +     '<option value="beginner">Beginner</option>'
-      +     '<option value="intermediate">Intermediate</option>'
-      +     '<option value="advanced">Advanced</option>'
-      +   '</select>'
-      + '</div>'
-      + '<div style="padding:10px 14px;border-radius:10px;background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3);color:#fcd34d;font-size:12px;margin-bottom:14px">'
-      +   '⚠️ <strong>Demo mode:</strong> canned replies below. Real AI runs on the backend when you set an API key.'
-      + '</div>'
-      + '<div class="chat-window" id="chatWindow"></div>'
-      + '<div class="row mt-4" style="gap:8px">'
-      +   '<textarea class="input" id="aiInput" style="flex:1;min-height:60px;resize:none" placeholder="Ask a question… (Enter to send)"></textarea>'
-      +   '<button class="btn btn-primary" id="sendBtn">Send</button>'
-      + '</div>'
-      + '</div></section>';
-  }
-
-  function renderDashboard(){
-    if (!S.user){
-      return ''
-        + '<section><div class="container text-center" style="padding:60px 0">'
-        + '<h1 style="font-size:32px">Dashboard</h1>'
-        + '<p class="muted mt-4 mb-6">Sign in to view your dashboard.</p>'
-        + '<button class="btn btn-primary" id="dashSignIn">Sign In</button>'
-        + '</div></section>';
-    }
-    var attempts = Store.get("attempts", []);
-    var plist = COURSES.map(function(c){
-      var p = progress(c.id);
-      return { course: c, done: p.done.length, total: c.lessons.length };
-    }).filter(function(x){ return x.total > 0; });
-
-    var totalDone = plist.reduce(function(s,x){ return s + x.done; }, 0);
-    var totalAll = plist.reduce(function(s,x){ return s + x.total; }, 0);
-    var certs = plist.filter(function(x){ return x.total > 0 && x.done === x.total; });
-
-    var progressCards = plist.map(function(x){
-      var pct = Math.round((x.done / x.total) * 100);
-      return '<div class="glass" style="padding:16px">'
-        + '<div class="flex-between" style="margin-bottom:8px">'
-        +   '<span style="font-weight:600">' + x.course.icon + ' ' + x.course.title + '</span>'
-        +   '<span class="muted" style="font-size:13px">' + x.done + '/' + x.total + ' · ' + pct + '%</span>'
-        + '</div>'
-        + '<div class="progress"><div style="width:' + pct + '%"></div></div>'
-        + '</div>';
-    }).join("");
-
-    var certCards = certs.length
-      ? '<h2 class="mb-4" style="font-size:22px">🏆 Certificates</h2>'
-        + '<div class="grid mb-6" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">'
-        + certs.map(function(x){
-            return '<div class="glass card">'
-              + '<div style="font-size:32px">' + x.course.icon + '</div>'
-              + '<p style="font-weight:600;margin-top:8px">' + x.course.title + '</p>'
-              + '<p class="muted" style="font-size:12px">Completed</p>'
-              + '<button class="btn btn-primary btn-sm mt-4" data-cert="' + x.course.id + '">Download PDF</button>'
-              + '</div>';
-          }).join("")
-        + '</div>'
-      : '';
-
-    var attemptsHtml = attempts.length
-      ? '<div class="glass" style="padding:0;overflow:hidden">'
-        + attempts.slice(0,8).map(function(a){
-            return '<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;font-size:14px">'
-              + '<span>' + esc(a.course) + ' · ' + new Date(a.date).toLocaleDateString() + '</span>'
-              + '<span style="color:var(--cyan);font-weight:600">' + a.score + '/' + a.total + '</span>'
-              + '</div>';
-          }).join("")
-        + '</div>'
-      : '<p class="muted">No attempts yet — open a course and try a quiz.</p>';
-
-    return ''
-      + '<section><div class="container">'
-      + '<div class="glass card mb-6"><div class="flex-between"><div>'
-      +   '<p class="muted" style="font-size:13px">Welcome back</p>'
-      +   '<h1 style="font-size:30px">' + esc(S.user.name) + '</h1>'
-      +   '<p class="muted" style="font-size:13px">' + esc(S.user.email) + '</p>'
-      + '</div><div class="row">'
-      +   '<span class="pill ' + (S.user.premium?'premium':'') + '">' + (S.user.premium?'✦ Premium':'Free tier') + '</span>'
-      +   (!S.user.premium ? '<button class="btn btn-primary btn-sm" data-nav="premium">Go Premium</button>' : '')
-      + '</div></div></div>'
-      + '<div class="grid mb-6" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">'
-      +   '<div class="glass card"><p class="muted" style="font-size:12px">Lessons completed</p>'
-      +     '<p style="font-size:32px;color:var(--cyan);margin-top:6px">' + totalDone + '</p>'
-      +     '<p class="muted" style="font-size:12px">of ' + totalAll + '</p></div>'
-      +   '<div class="glass card"><p class="muted" style="font-size:12px">Quiz attempts</p>'
-      +     '<p style="font-size:32px;color:var(--purple);margin-top:6px">' + attempts.length + '</p></div>'
-      +   '<div class="glass card"><p class="muted" style="font-size:12px">Certificates</p>'
-      +     '<p style="font-size:32px;color:#4ade80;margin-top:6px">' + certs.length + '</p></div>'
-      + '</div>'
-      + '<h2 class="mb-4" style="font-size:22px">Your Progress</h2>'
-      + '<div class="grid mb-6" style="grid-template-columns:1fr">' + progressCards + '</div>'
-      + certCards
-      + '<h2 class="mb-4" style="font-size:22px">Quiz History</h2>'
-      + attemptsHtml
-      + '</div></section>';
-  }
-
-  function renderPremium(){
-    return ''
-      + '<section><div class="container" style="max-width:900px">'
-      + '<h1 class="text-center mb-4" style="font-size:36px">Go Premium</h1>'
-      + '<p class="muted text-center mb-6" style="max-width:500px;margin:0 auto 24px">Unlock intermediate & advanced courses, extended AI tutoring, and certificates.</p>'
-      + '<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">'
-      +   '<div class="glass card"><h3 style="font-size:20px">Free</h3>'
-      +     '<p style="font-size:36px;margin-top:8px">₦0</p>'
-      +     '<ul class="muted mt-4" style="font-size:14px;line-height:1.9;padding-left:16px">'
-      +       '<li>Beginner courses</li><li>Basic quizzes</li><li>Limited AI tutor</li></ul></div>'
-      +   '<div class="glass card" style="border:2px solid var(--cyan);box-shadow:0 0 40px rgba(34,211,238,.25)">'
-      +     '<h3 style="font-size:20px;color:var(--cyan)">Premium</h3>'
-      +     '<p style="font-size:36px;margin-top:8px">₦5,000 <span class="muted" style="font-size:14px;font-weight:normal">/month</span></p>'
-      +     '<ul class="muted mt-4" style="font-size:14px;line-height:1.9;padding-left:16px">'
-      +       '<li>Intermediate & advanced courses</li><li>Full AI tutor</li>'
-      +       '<li>Downloadable resources</li><li>Certificates</li></ul>'
-      +     '<button class="btn btn-primary btn-block mt-6" id="upgradeBtn">Upgrade (Demo)</button></div>'
-      + '</div>'
-      + '<p class="text-center mt-6" style="font-size:12px;color:#64748b">'
-      +   '⚠️ Demo mode — no real payment is taken. Production uses Paystack checkout.</p>'
-      + '</div></section>';
-  }
-
-  function renderVerify(){
-    return ''
-      + '<section><div class="container" style="max-width:600px">'
-      + '<h1 class="mb-6" style="font-size:32px">Verify a Certificate</h1>'
-      + '<p class="muted mb-6">Enter a certificate ID (e.g. WCA-XXXXXXXXXXXX) to verify.</p>'
-      + '<div class="row">'
-      +   '<input class="input" id="verifyInput" placeholder="WCA-XXXXXXXXXXXX" style="flex:1">'
-      +   '<button class="btn btn-primary" id="verifyBtn">Verify</button>'
-      + '</div>'
-      + '<div id="verifyResult" class="mt-6"></div>'
-      + '</div></section>';
-  }
-
-  /* ============================================================
-     ROUTER
-     ============================================================ */
-  function showPage(name){
-    S.page = name;
-    document.getElementById("navLinks").classList.remove("open");
-    window.scrollTo({top:0,behavior:"smooth"});
-    var html;
-    if (name === "home") html = renderHome();
-    else if (name === "courses") html = renderCourses();
-    else if (name === "course") html = renderCourse();
-    else if (name === "playground") html = renderPlayground();
-    else if (name === "ai") html = renderAI();
-    else if (name === "dashboard") html = renderDashboard();
-    else if (name === "premium") html = renderPremium();
-    else if (name === "verify") html = renderVerify();
-    else html = renderHome();
-    document.getElementById("app").innerHTML = html;
-    afterRender(name);
-  }
-
-  /* ============================================================
-     POST-RENDER HOOKS
-     ============================================================ */
-  function afterRender(name){
-    if (name === "playground") setupPlayground();
-    if (name === "ai") setupAI();
-    if (name === "verify") {
-      var b = document.getElementById("verifyBtn");
-      if (b) b.addEventListener("click", doVerify);
-      var i = document.getElementById("verifyInput");
-      if (i) i.addEventListener("keydown", function(e){ if (e.key==="Enter") doVerify(); });
-    }
-    if (name === "premium") {
-      var u = document.getElementById("upgradeBtn");
-      if (u) u.addEventListener("click", upgradeDemo);
-    }
-    if (name === "course") {
-      var mc = document.getElementById("markComplete");
-      if (mc) mc.addEventListener("click", markComplete);
-      var sq = document.getElementById("submitQuiz");
-      if (sq) sq.addEventListener("click", submitQuiz);
-      var rq = document.getElementById("retakeQuiz");
-      if (rq) rq.addEventListener("click", function(){
-        S.quizAnswers = []; S.quizResult = null; showPage("course");
-      });
-    }
-  }
-
-  /* ============================================================
-     GLOBAL EVENT DELEGATION
-     ============================================================ */
-  document.addEventListener("click", function(e){
-    var t = e.target.closest("[data-nav]");
-    if (t){ e.preventDefault(); showPage(t.getAttribute("data-nav")); return; }
-
-    var c = e.target.closest("[data-course]");
-    if (c){ e.preventDefault(); openCourse(c.getAttribute("data-course")); return; }
-
-    var l = e.target.closest("[data-lesson]");
-    if (l){ e.preventDefault(); S.lessonIdx = parseInt(l.getAttribute("data-lesson"),10); showPage("course"); return; }
-
-    var lg = e.target.closest("[data-lang]");
-    if (lg){ e.preventDefault(); changeLang(lg.getAttribute("data-lang")); return; }
-
-    var a = e.target.closest("[data-answer]");
-    if (a){
-      var parts = a.getAttribute("data-answer").split(",");
-      setAnswer(parseInt(parts[0],10), parseInt(parts[1],10));
-      return;
-    }
-
-    var cert = e.target.closest("[data-cert]");
-    if (cert){ e.preventDefault(); generateCertificate(cert.getAttribute("data-cert")); return; }
-
-    if (e.target.id === "homeSignup" || e.target.id === "aiSignIn" || e.target.id === "dashSignIn"){
-      openAuth(); return;
-    }
-
-    if (e.target.id === "mobileBtn"){
-      document.getElementById("navLinks").classList.toggle("open");
-      return;
-    }
-  });
-
-  // Auth modal close
-  document.getElementById("authClose").addEventListener("click", closeAuth);
-  document.getElementById("authModal").addEventListener("click", function(e){
-    if (e.target === this) closeAuth();
-  });
-
-  /* ============================================================
-     COURSE LOGIC
-     ============================================================ */
-  function openCourse(id){
-    var c = COURSES.find(function(x){ return x.id === id; });
-    if (!c) return;
-    if (c.premium && (!S.user || !S.user.premium)){
-      toast("Premium course — sign in and upgrade to unlock.", "error");
-      showPage("premium");
-      return;
-    }
-    S.course = c;
-    S.lessonIdx = 0;
-    S.quizAnswers = [];
-    S.quizResult = null;
-    showPage("course");
-  }
-
-  function markComplete(){
-    if (!S.user){ openAuth(); return; }
-    var c = S.course;
-    var p = progress(c.id);
-    if (p.done.indexOf(S.lessonIdx) === -1){
-      p.done.push(S.lessonIdx);
-      Store.set("progress_" + c.id, p);
-      toast("Lesson completed!");
-      showPage("course");
-    }
-  }
-
-  function setAnswer(qi, oi){
-    S.quizAnswers[qi] = oi;
-    showPage("course");
-  }
-
-  function submitQuiz(){
-    var c = S.course;
-    if (S.quizAnswers.length < c.quiz.length || S.quizAnswers.some(function(a){ return a === undefined; })){
-      return toast("Answer every question first.", "error");
-    }
-    var score = 0;
-    var feedback = c.quiz.map(function(q, i){
-      var correct = S.quizAnswers[i] === q.answer;
-      if (correct) score++;
-      return { question_index: i, correct: correct, explanation: q.explanation };
-    });
-    S.quizResult = { score: score, total: c.quiz.length, feedback: feedback };
-    if (S.user){
-      var att = Store.get("attempts", []);
-      att.unshift({ course: c.title, score: score, total: c.quiz.length, date: new Date().toISOString() });
-      Store.set("attempts", att.slice(0, 20));
-    }
-    showPage("course");
-  }
-
-  /* ============================================================
-     PLAYGROUND
-     ============================================================ */
-  var DEFAULTS = {
-    python: 'print("Hello, WILLTECH!")',
-    javascript: 'console.log("Hello, WILLTECH!");',
-    typescript: 'const msg = "Hello, WILLTECH!";\nconsole.log(msg);',
-    java: 'public class Main {\n  public static void main(String[] a) {\n    System.out.println("Hello!");\n  }\n}',
-    "c++": '#include <iostream>\nint main(){ std::cout << "Hello!"; return 0; }',
-    "c#": 'using System;\nclass P{ static void Main(){ Console.WriteLine("Hello!"); } }',
-    php: '<?php echo "Hello!"; ?>',
-    go: 'package main\nimport "fmt"\nfunc main(){ fmt.Println("Hello!") }',
-    rust: 'fn main(){ println!("Hello!"); }',
-    ruby: 'puts "Hello!"',
-    swift: 'print("Hello!")',
-    sql: 'CREATE TABLE t(x INT);\nINSERT INTO t VALUES (1),(2);\nSELECT * FROM t;',
-    html: '<h1>Hello, WILLTECH!</h1>\n<p>Rendered live below.</p>'
-  };
-
-  function setupPlayground(){
-    var ed = document.getElementById("codeEditor");
-    ed.value = DEFAULTS[S.lang] || "";
-    updateLangHighlight();
-    document.getElementById("runBtn").addEventListener("click", runCode);
-    document.getElementById("resetBtn").addEventListener("click", resetCode);
-  }
-
-  function updateLangHighlight(){
-    var pills = document.querySelectorAll("[data-lang]");
-    pills.forEach(function(p){
-      var isActive = p.getAttribute("data-lang") === S.lang;
-      p.style.background = isActive ? "rgba(34,211,238,.2)" : "";
-      p.style.color = isActive ? "var(--cyan)" : "";
-    });
-  }
-
-  function changeLang(l){
-    S.lang = l;
-    var ed = document.getElementById("codeEditor");
-    if (ed) ed.value = DEFAULTS[l] || "";
-    var out = document.getElementById("output");
-    if (out) out.innerHTML = '<span class="muted">Output appears here…</span>';
-    updateLangHighlight();
-  }
-
-  function resetCode(){
-    var ed = document.getElementById("codeEditor");
-    ed.value = DEFAULTS[S.lang] || "";
-    document.getElementById("output").innerHTML = '<span class="muted">Output appears here…</span>';
-  }
-
-  function runCode(){
-    var code = document.getElementById("codeEditor").value;
-    var out = document.getElementById("output");
-
-    if (S.lang === "html"){
-      out.innerHTML = '<iframe style="width:100%;height:100%;border:none;background:#fff;border-radius:8px" srcdoc="' + code.replace(/"/g,'&quot;') + '"></iframe>';
-      return;
-    }
-
-    if (S.lang === "javascript" || S.lang === "typescript"){
-      // Run JS safely in an iframe
-      var logs = [];
-      var iframe = document.createElement("iframe");
-      iframe.style.display = "none";
-      document.body.appendChild(iframe);
-      try {
-        var w = iframe.contentWindow;
-        w.console = { log: function(){ logs.push(Array.prototype.join.call(arguments, " ")); } };
-        w.eval(code);
-        out.textContent = logs.length ? logs.join("\n") : "(no output — code ran successfully)";
-      } catch (err){
-        out.innerHTML = '<span class="err">' + esc(err.message) + '</span>';
-      } finally {
-        document.body.removeChild(iframe);
-      }
-      return;
-    }
-
-    if (S.lang === "sql"){
-      out.innerHTML = '<span class="muted">SQL needs the backend (SQLite via Piston). UI is functional; wire the backend to execute.</span>';
-      return;
-    }
-
-    out.innerHTML = '<span class="muted">' + esc(S.lang) + ' execution requires the backend (Piston).\nUI is fully functional — wire the backend to enable real runs.\n\nAlternatively, switch to JavaScript to test the runner now.</span>';
-  }
-
-  /* ============================================================
-     AI TUTOR (DEMO)
-     ============================================================ */
-  function setupAI(){
-    var win = document.getElementById("chatWindow");
-    if (!S.chat.length){
-      S.chat = [{ role:"assistant", content:"Hi! I'm WILLTECH AI Tutor. Ask me about loops, functions, variables, errors, or exercises." }];
-    }
-    renderChat();
-    var input = document.getElementById("aiInput");
-    var send = document.getElementById("sendBtn");
-    send.addEventListener("click", sendAI);
-    input.addEventListener("keydown", function(e){
-      if (e.key === "Enter" && !e.shiftKey){ e.preventDefault(); sendAI(); }
-    });
-    input.focus();
-  }
-
-  function renderChat(){
-    var win = document.getElementById("chatWindow");
-    win.innerHTML = S.chat.map(function(m){
-      return '<div class="msg ' + m.role + '">' + esc(m.content) + '</div>';
-    }).join("");
-    win.scrollTop = win.scrollHeight;
-  }
-
-  function sendAI(){
-    var input = document.getElementById("aiInput");
-    var text = input.value.trim();
-    if (!text) return;
-    S.chat.push({ role:"user", content:text });
-    input.value = "";
-    renderChat();
-    setTimeout(function(){
-      var reply = demoReply(text);
-      S.chat.push({ role:"assistant", content:reply });
-      renderChat();
-    }, 400);
-  }
-
-  function demoReply(text){
-    var t = text.toLowerCase();
-    if (/hello|hi|hey/.test(t)){
-      return "Hello! 👋 What are you learning today? Try asking:\n• \"Explain Python loops\"\n• \"Give me a JavaScript exercise\"\n• \"Why is my code not working?\"";
-    }
-    if (/loop/.test(t)){
-      return "A loop repeats code. Two common types:\n\n1. for loop — repeat a known number of times:\n   for i in range(5):\n       print(i)\n\n2. while loop — repeat while a condition is true:\n   n = 3\n   while n > 0:\n       print(n)\n       n -= 1\n\nPractice: print the first 10 even numbers.";
-    }
-    if (/function|def/.test(t)){
-      return "A function groups reusable code.\n\nPython:\n   def greet(name):\n       return \"Hello, \" + name + \"!\"\n\nJavaScript:\n   const greet = name => `Hello, ${name}!`;\n\nFunctions help you avoid repeating yourself (DRY).";
-    }
-    if (/variable/.test(t)){
-      return "Variables store values.\n\nPython: name = \"Ada\"\nJavaScript: let age = 25; const country = \"NG\";\n\nUse const by default in JS, let when you need to reassign.";
-    }
-    if (/error|bug|fix|why.*not work/.test(t)){
-      return "Common debugging steps:\n1. Read the error message — the line number is the clue.\n2. Print values before the crash line.\n3. Check for typos, missing quotes, or mismatched brackets.\n4. Paste the error here and I'll walk through it.";
-    }
-    if (/exercise|practice|challenge/.test(t)){
-      return "Try this:\n\nWrite a function that takes a list of numbers and returns the sum of only the even numbers.\n\nExample: [1,2,3,4,5,6] → 12\n\nTest it in the Playground, then paste your solution here.";
-    }
-    return "Great question! In demo mode I give canned replies. When the backend is configured, this routes to a live AI model.\n\nTry asking about: loops, functions, variables, errors, or exercises.";
-  }
-
-  /* ============================================================
-     CERTIFICATE
-     ============================================================ */
-  function generateCertificate(courseId){
-    var c = COURSES.find(function(x){ return x.id === courseId; });
-    if (!c) return;
-    var user = S.user;
-    var certNum = "WCA-" + Math.random().toString(36).slice(2, 14).toUpperCase();
-    var certs = Store.get("certificates", {});
-    certs[certNum] = { name: user.name, course: c.title, issued: new Date().toISOString() };
-    Store.set("certificates", certs);
-
-    var win = window.open("", "_blank");
-    if (!win){ toast("Popup blocked — allow popups to download.", "error"); return; }
-    win.document.write(
-      '<html><head><title>Certificate — ' + esc(c.title) + '</title>'
-      + '<style>'
-      + '@page{size:A4 landscape;margin:0}'
-      + 'body{margin:0;font-family:Georgia,serif;display:flex;align-items:center;justify-content:center;min-height:100vh;background:#050b24;color:#e8eefc}'
-      + '.cert{width:900px;padding:60px;border:4px solid #22d3ee;border-radius:16px;text-align:center;background:linear-gradient(135deg,#050b24,#0a1330)}'
-      + 'h1{color:#22d3ee;font-size:40px;letter-spacing:2px;margin:0 0 8px}'
-      + 'h2{font-size:16px;letter-spacing:4px;color:#94a3b8;margin:0 0 40px;font-weight:normal}'
-      + '.name{font-size:44px;color:#fff;margin:20px 0;font-weight:bold}'
-      + '.body{font-size:18px;color:#cbd5e1;margin:10px 0}'
-      + '.course{font-size:32px;color:#2f7bff;margin:20px 0;font-weight:bold}'
-      + '.footer{margin-top:50px;font-size:12px;color:#64748b}'
-      + '</style></head><body><div class="cert">'
-      + '<h1>WILLTECH CODE ACADEMY</h1>'
-      + '<h2>EXPERIENCE THE FUTURE</h2>'
-      + '<p class="body">Certificate of Completion</p>'
-      + '<div class="name">' + esc(user.name) + '</div>'
-      + '<p class="body">has successfully completed</p>'
-      + '<div class="course">' + esc(c.title) + '</div>'
-      + '<p class="footer">Certificate ID: ' + certNum + '<br>Issued: ' + new Date().toLocaleDateString() + '<br>Verify at willtechacademy.com</p>'
-      + '</div></body></html>'
-    );
-    win.document.close();
-    toast("Certificate ready — Print → Save as PDF");
-  }
-
-  function doVerify(){
-    var num = document.getElementById("verifyInput").value.trim().toUpperCase();
-    var certs = Store.get("certificates", {});
-    var result = document.getElementById("verifyResult");
-    if (!num){ result.innerHTML = '<p class="muted">Enter a certificate ID.</p>'; return; }
-    if (certs[num]){
-      var c = certs[num];
-      result.innerHTML = '<div class="glass card" style="border:1px solid rgba(74,222,128,.4)">'
-        + '<p style="color:#4ade80;font-weight:bold;margin-bottom:12px">✓ Valid Certificate</p>'
-        + '<p><span class="muted">Name:</span> ' + esc(c.name) + '</p>'
-        + '<p><span class="muted">Course:</span> ' + esc(c.course) + '</p>'
-        + '<p><span class="muted">Issued:</span> ' + new Date(c.issued).toLocaleDateString() + '</p>'
-        + '</div>';
-    } else {
-      result.innerHTML = '<div class="glass card" style="border:1px solid rgba(248,113,113,.4)">'
-        + '<p style="color:#f87171">✗ No certificate found with that ID.</p>'
-        + '<p class="muted mt-2" style="font-size:13px">Certificates in this demo live only in your browser.</p>'
-        + '</div>';
-    }
-  }
-
-  /* ============================================================
-     PREMIUM DEMO
-     ============================================================ */
-  function upgradeDemo(){
-    if (!S.user){ openAuth(); return; }
-    S.user.premium = true;
-    Store.set("user", S.user);
-    toast("✓ Premium activated (demo). Real payments use Paystack.");
-    showPage("dashboard");
-  }
-
-  /* ============================================================
-     AUTH
-     ============================================================ */
-  var authMode = "login";
-
-  function openAuth(){
-    renderAuth();
-    document.getElementById("authModal").classList.add("open");
-  }
-  function closeAuth(){
-    document.getElementById("authModal").classList.remove("open");
-  }
-
-  function renderAuth(){
-    document.getElementById("authTitle").textContent = authMode === "login" ? "Sign In" : "Create Account";
-    var body = document.getElementById("authBody");
-    if (authMode === "login"){
-      body.innerHTML = '<div style="display:flex;flex-direction:column;gap:12px">'
-        + '<input class="input" id="authEmail" type="email" placeholder="Email" required>'
-        + '<input class="input" id="authPassword" type="password" placeholder="Password" required>'
-        + '<button class="btn btn-primary btn-block" id="loginBtn">Sign In</button>'
-        + '<p class="text-center muted" style="font-size:13px">No account? '
-        + '<a style="color:var(--cyan);cursor:pointer" id="switchToRegister">Create one</a></p>'
-        + '</div>';
-      document.getElementById("loginBtn").addEventListener("click", doLogin);
-      document.getElementById("switchToRegister").addEventListener("click", function(){
-        authMode = "register"; renderAuth();
-      });
-    } else {
-      body.innerHTML = '<div style="display:flex;flex-direction:column;gap:12px">'
-        + '<input class="input" id="authName" placeholder="Full name" required>'
-        + '<input class="input" id="authEmail" type="email" placeholder="Email" required>'
-        + '<input class="input" id="authPassword" type="password" placeholder="Password (8+ chars)" required minlength="8">'
-        + '<button class="btn btn-primary btn-block" id="registerBtn">Sign Up</button>'
-        + '<p class="text-center muted" style="font-size:13px">Already have an account? '
-        + '<a style="color:var(--cyan);cursor:pointer" id="switchToLogin">Sign in</a></p>'
-        + '</div>';
-      document.getElementById("registerBtn").addEventListener("click", doRegister);
-      document.getElementById("switchToLogin").addEventListener("click", function(){
-        authMode = "login"; renderAuth();
-      });
-    }
-  }
-
-  function updateNavAuth(){
-    var el = document.getElementById("navAuth");
-    if (S.user){
-      el.innerHTML = '<span style="font-size:13px;color:var(--muted);margin-right:8px">Hi, '
-        + esc(S.user.name.split(" ")[0]) + '</span>'
-        + '<button class="btn btn-ghost btn-sm" id="logoutBtn">Logout</button>';
-      document.getElementById("logoutBtn").addEventListener("click", logout);
-    } else {
-      el.innerHTML = '<button class="btn btn-primary btn-sm" id="signInBtn">Sign In</button>';
-      document.getElementById("signInBtn").addEventListener("click", openAuth);
-    }
-  }
-
-  function doLogin(){
-    var email = document.getElementById("authEmail").value.trim().toLowerCase();
-    var pass = document.getElementById("authPassword").value;
-    if (!email || !pass){ toast("Fill all fields", "error"); return; }
-    var users = Store.get("users", {});
-    if (!users[email] || users[email].password !== pass){
-      toast("Invalid email or password", "error"); return;
-    }
-    S.user = { name: users[email].name, email: email, premium: users[email].premium || false };
-    Store.set("user", S.user);
-    updateNavAuth();
-    closeAuth();
-    toast("Welcome back, " + S.user.name.split(" ")[0] + "!");
-    showPage("dashboard");
-  }
-
-  function doRegister(){
-    var name = document.getElementById("authName").value.trim();
-    var email = document.getElementById("authEmail").value.trim().toLowerCase();
-    var pass = document.getElementById("authPassword").value;
-    if (!name || !email || !pass){ toast("Fill all fields", "error"); return; }
-    if (pass.length < 8){ toast("Password must be 8+ chars", "error"); return; }
-    var users = Store.get("users", {});
-    if (users[email]){ toast("Email already registered", "error"); return; }
-    users[email] = { name: name, password: pass, premium: false };
-    Store.set("users", users);
-    S.user = { name: name, email: email, premium: false };
-    Store.set("user", S.user);
-    updateNavAuth();
-    closeAuth();
-    toast("Account created! 🎉");
-    showPage("dashboard");
-  }
-
-  function logout(){
-    S.user = null;
-    Store.del("user");
-    updateNavAuth();
-    toast("Signed out");
-    showPage("home");
-  }
-
-  /* ============================================================
-     BOOT
-     ============================================================ */
-  document.getElementById("year").textContent = new Date().getFullYear();
-  updateNavAuth();
-  showPage("home");
-
-  // Expose for debugging
-  window.__willtech = { showPage: showPage, S: S, Store: Store };
-})();
 </script>
-</body>
-</html>
+</body></html>
